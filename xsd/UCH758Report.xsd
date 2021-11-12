@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:include schemaLocation="UCH758Model.xsd"/>
+	<!--Данная схема содержит модель Кредитных Отчетов физического и юридического лиц-->
+	<!--Схема импортирует схему с моделью данных по Положению-758, типы которого использованы в сценариях загрузки-->
+	<!--В схеме есть глобальный элемент report абстрактного типа BaseReportType, который заменяется на унаследованные типы при заполнении-->
+	<xs:element name="report" type="BaseReportType">
+		<xs:annotation>
+			<xs:documentation>Отчет</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BaseReportType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Базовый тип отчета (абстрактный)</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="ReportType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Базовый тип отчета физического лица (абстрактный)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseReportType">
+				<xs:sequence>
+					<xs:group ref="CreditHistoryTitular"/>
+					<xs:element name="partnerKind" type="partnerKindType" minOccurs="0" maxOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Тип партнера</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StandardReportType">
+		<xs:annotation>
+			<xs:documentation>Стандартный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportType">
+				<xs:sequence>
+					<xs:group ref="SubjectSpecial"/>
+					<xs:group ref="PersonDeal" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="avgPayment" type="AvgPaymentType">
+						<xs:annotation>
+							<xs:documentation>Блок 40. Сведения квалифицированного бюро о среднемесячных платежах по договору займа (кредита)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="collection" type="CollectionType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Блок 43. Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="customerRequest" type="CustomerRequestType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Блок 44. (юр Блок 34) Сведения о запросе информации пользователем</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ExtendedReportType">
+		<xs:annotation>
+			<xs:documentation>Расширенный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="StandardReportType">
+				<xs:sequence>
+					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InformationalReportType">
+		<xs:annotation>
+			<xs:documentation>Информационный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportType">
+				<xs:sequence>
+					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AvgPaymentsReportType">
+		<xs:annotation>
+			<xs:documentation>Отчет о среднемесячных платежах</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportType">
+				<xs:sequence>
+					<xs:element name="dealUid" type="DealUidType">
+						<xs:annotation>
+							<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="montlyPayment" type="MonthlyPaymentType">
+						<xs:annotation>
+							<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="avgPayments" type="AvgPaymentType" minOccurs="0" maxOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Блок 40. Сведения квалифицированного бюро о среднемесячных платежах по договору займа (кредита)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AvgPaymentsUcbReportType">
+		<xs:annotation>
+			<xs:documentation>Отчет о среднемесячных платежах (ОКБ)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AvgPaymentsReportType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="StandardScoringReportType">
+		<xs:annotation>
+			<xs:documentation>Стандатный отчет и скоринги физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="StandardReportType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RatingReportType">
+		<xs:annotation>
+			<xs:documentation>Отчет с индивидуальными рейтингами физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportType">
+				<xs:sequence>
+					<xs:element name="Rating" type="RatingType">
+						<xs:annotation>
+							<xs:documentation>Блок 15. Индивидуальный рейтинг субъекта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ScoringReportType">
+		<xs:annotation>
+			<xs:documentation>Отчет соо скорингами физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportType">
+				<xs:sequence>
+					<xs:element name="Score" type="ScoreType">
+						<xs:annotation>
+							<xs:documentation>Блок 16. (юр Блок 9) Кредитная оценка (скоринг)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FullReportType">
+		<xs:annotation>
+			<xs:documentation>Полный субъектный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ExtendedReportType">
+				<xs:sequence>
+					<xs:group ref="SourceInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="CustomerInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="AcquirerInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="AccountingInfo" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgReportType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Базовый тип отчета юридического лица (абстрактный)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseReportType">
+				<xs:sequence>
+					<xs:group ref="OrgCreditHistoryTitular"/>
+					<xs:element name="partnerKind" type="partnerKindType" minOccurs="0" maxOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Тип партнера</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgStandardReportType">
+		<xs:annotation>
+			<xs:documentation>Стандартный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="OrgReportType">
+				<xs:sequence>
+					<xs:group ref="OrgSpecial"/>
+					<xs:group ref="OrgDeal" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="collection" type="CollectionType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Блок 43. Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="customerRequest" type="CustomerRequestType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Блок 44. (юр Блок 34) Сведения о запросе информации пользователем</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgExtendedReportType">
+		<xs:annotation>
+			<xs:documentation>Расширенный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="OrgStandardReportType">
+				<xs:sequence>
+					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgInformationalReportType">
+		<xs:annotation>
+			<xs:documentation>Информационный отчет физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="OrgReportType">
+				<xs:sequence>
+					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgFullReportType">
+		<xs:annotation>
+			<xs:documentation>Полный субъектный отчет юридического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="OrgExtendedReportType">
+				<xs:sequence>
+					<xs:group ref="SourceInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="CustomerInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="AcquirerInfo" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:group ref="AccountingInfo" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="partnerKindType">
+		<xs:annotation>
+			<xs:documentation>Тип партнера</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="8"/>
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="PersonDeal">
+		<xs:annotation>
+			<xs:documentation>Группа блоков, отвечающих за информацию по сделке физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="DealTerms"/>
+			<xs:group ref="DealFulfillment" minOccurs="0"/>
+			<xs:group ref="DealSecuring" minOccurs="0"/>
+			<xs:group ref="DealTermination" minOccurs="0"/>
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 41. Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 42. Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="OrgDeal">
+		<xs:annotation>
+			<xs:documentation>Группа блоков, отвечающих за информацию по сделке юридического лица</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgDealTerms"/>
+			<xs:group ref="OrgDealFulfillment" minOccurs="0"/>
+			<xs:group ref="OrgDealSecuring" minOccurs="0"/>
+			<xs:group ref="DealTermination" minOccurs="0"/>
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 41. Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 42. Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>

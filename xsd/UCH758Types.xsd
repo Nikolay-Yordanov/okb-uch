@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<!--Данная схема содержит типы, изложенные в Положении 758 ЦБ РФ и вспомогательные типы-->
+	<!--Раздел 6. Технические требования к показателям кредитной информации-->
+	<xs:simpleType name="addressFiasType">
+		<xs:annotation>
+			<xs:documentation>1.1 Адрес организации. Формаt: в соответствии со структурой адреса в ФИАС.
+Допустимые символы: прописные буквы русского алфавита; цифры от 0 до 9; знаки препинания «,» (запятая), «.» (точка) и разделители «-» (дефис), «/» (дробная черта).
+Допустимые значения: в соответствии с единым государственным реестром саморегулируемых организаций арбитражных управляющих.
+</xs:documentation>
+			<xs:appinfo>Правила преобразования10: буквы приводятся к верхнему регистру, каждый управляющий символ (символ перевода строки, символ возврата каретки, табулятор и иные символы с кодами ASCII меньше 32) заменяется на пробел, каждые два и более идущих подряд пробела заменяются на один пробел</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9А-я\-,./]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="emailType">
+		<xs:annotation>
+			<xs:documentation>1.2 Адрес электронной почты. Формат: "имя почтового ящика"@"имя домена"."имя домена верхнего уровня". Может быть указано несколько имен доменов, разделенных точками.
+Допустимые символы: буквы латинского алфавита в верхнем регистре от A до Z и в нижнем регистре от a до z; цифры от 0 до 9; разделители «.» (точка), «-» (дефис), «_» (нижнее подчеркивание), «@»; для доменных имен в зоне «.рф» допустимо использование букв русского алфавита в верхнем регистре от А до Я и в нижнем регистре от а до я.
+Допустимые значения: 1) наличие символа «@» обязательно; 2) символ «@» должен использоваться однократно; 3) наличие точки в начале и в конце строки адреса, а также слева и справа от символа «@» не допускается; 4) наличие иных, отличных от допустимых символов недопустимо. Допустимые символы: буквы латинского алфавита в верхнем регистре от A до Z и в нижнем регистре от a до z; цифры от 0 до 9; разделители «.» (точка), «-» (дефис), «_» (нижнее подчеркивание), «@»; для доменных имен в зоне «.рф» допустимо использование букв русского алфавита в верхнем регистре от А до Я и в нижнем регистре от а до я.
+Допустимые значения: 1) наличие символа «@» обязательно; 2) символ «@» должен использоваться однократно; 3) наличие точки в начале и в конце строки адреса, а также слева и справа от символа «@» не допускается; 4) наличие иных, отличных от допустимых символов недопустимо.
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к нижнему регистру, пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="256"/>
+			<xs:pattern value="([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="currencyType">
+		<xs:annotation>
+			<xs:documentation>1.3 Валюта. Формат: трехбуквенный код валюты.
+Допустимые символы: буквы латинского алфавита в верхнем регистре от A до Z.
+Допустимые значения: буквенный код валюты по Общероссийскому классификатору валют (в том числе «RUR» – российский рубль).
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру, пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="avgPayType">
+		<xs:annotation>
+			<xs:documentation>1.10 Величина среднемесячного платежа. Формат: последовательность цифр без пробелов и разделителей.
+Допустимые символы: цифры от 0 до 9.
+Допустимые значения: от «0» до «999 999 999».
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:maxInclusive value="999999999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="monetaryType">
+		<xs:annotation>
+			<xs:documentation>1.11 Денежная сумма. Формат: до 12 цифр в целой части, десятичная запятая, 2 цифры в дробной части.
+Допустимые символы: цифры от 0 до 9; десятичный разделитель «,» (запятая).
+Допустимые значения: больше либо равно 0.
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,12},\d{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="buildingType">
+		<xs:annotation>
+			<xs:documentation>1.12 Владение. Формат: 1) номер – последовательность от 1 до 5 цифр; 2) номер с литерой – последовательность цифр с буквой в конце; 3) два номера (каждый из которых может быть с литерой), разделенные символом «-» (дефис); 4) два или более номера в формате «1», «2» или «3», разделенные символом «/» (дробная черта).
+Допустимые символы: цифры от 0 до 9; буквы русского алфавита в верхнем регистре от А до Я или в нижнем регистре от а до я; символ «/» (дробная черта).
+Допустимые значения: не ограничиваются.
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру, пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="256"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dateType">
+		<xs:annotation>
+			<xs:documentation>2.1 Дата. Вместо формата Положения 758, описанного дальше, используется стандартный xs:date. Положение 758. Длина: 10 символов.
+Формат: «дд.мм.гггг», где «дд» – номер дня в месяце, «мм» – номер месяца в году, «гггг» – номер года; для значений дня или месяца от 1 до 9 указывается лидирующий 0.
+Допустимые символы: цифры от 0 до 9 и две точки.
+</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="influenceType">
+		<xs:annotation>
+			<xs:documentation>3.1 Доля влияния фактора. Допустимые значения: для каждого значения по показателю ФЛ_15.3 должно быть указано отдельное значение по показателю ФЛ_15.4. Каждое отдельное значение по показателю ФЛ_15.4 должно быть больше 0 и меньше 100. Сумма значений по показателю ФЛ_15.4 должна быть не более 100.</xs:documentation>
+			<xs:appinfo>Правила преобразования: не применяются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="infoType">
+		<xs:annotation>
+			<xs:documentation>3.3 Информация. Тип xs:string с длиной не больше 150 символов</xs:documentation>
+			<xs:appinfo>Правила преобразования: двойные пробелы, знаки препинания, разделители, кавычки заменяются на одинарные символы</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="scoreType">
+		<xs:annotation>
+			<xs:documentation>3.5 Кредитная оценка или рейтинг</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="9999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="leiType">
+		<xs:annotation>
+			<xs:documentation>3.7 Идентификатор LEI. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица».
+Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z.
+Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="256"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="collateralIdType">
+		<xs:annotation>
+			<xs:documentation>3.8 Идентификационный код предмета залога. Длина, формат, допустимые символы и допустимые значения: в зависимости от вида предмета залога, код которого указан по показателю ФЛ_32.2 или ЮЛ_23.2.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nameType">
+		<xs:annotation>
+			<xs:documentation>3.9 Имя. Формат: последовательность букв, возможно с разделителями «пробел» и «-» (дефис).
+Допустимые символы: только прописные буквы русского алфавита или только прописные буквы латинского алфавита, разделители «пробел» и «-» (дефис).</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру; двойные пробелы заменяются на одинарные; двойные дефисы заменяются на одинарные; пробелы слева и справа от дефиса удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="[А-яA-z -]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="codeType">
+		<xs:annotation>
+			<xs:documentation>4.1 Код адреса регистрации (и прочие)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="99"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ocatoType">
+		<xs:annotation>
+			<xs:documentation>4.11 Код населенного пункта по ОКАТО. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица».
+Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z.
+Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:maxInclusive value="99999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="authorityCodeType">
+		<xs:annotation>
+			<xs:documentation>4.14 Код подразделения. Формат: «NNN-NNN» – 2 части по 3 цифры в каждой, разделенные символом «-» (дефис).
+Допустимые символы: цифры от 0 до 9, символ дефис.
+Допустимые значения: коды по справочнику подразделений по вопросам миграции территориальных органов МВД России (УФМС России).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="7"/>
+			<xs:pattern value="\d{3}-\d{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="countryCodeType">
+		<xs:annotation>
+			<xs:documentation>4.33 Код страны по ОКСМ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="currencyRateType">
+		<xs:annotation>
+			<xs:documentation>5.3 Курс конверсии валюты долга. Формат: «NNNN,NNNN» – 2 числа от 1 до 4 цифр, разделенных десятичной запятой.
+Допустимые символы: цифры от 0 до 9 и «,» (запятая).</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="8"/>
+			<xs:fractionDigits value="4"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="insuranceLimitType">
+		<xs:annotation>
+			<xs:documentation>5.4 Лимит страховых выплат</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:maxInclusive value="999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="otherNameType">
+		<xs:annotation>
+			<xs:documentation> 5.6 наименование. Формат: отдельное слово или слова, разделенные пробелами и запятыми.
+Допустимые символы: только прописные буквы русского алфавита или только прописные буквы латинского алфавита; пробел и запятая.</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру; двойные пробелы и запятые заменяются на одинарные символы; пробелы слева от запятой удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="[А-яA-z ,]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="orgNameType">
+		<xs:annotation>
+			<xs:documentation>5.8 Наименование органа или организации. Формат: произвольный.
+Допустимые символы: для лиц, зарегистрированных в Российской Федерации, – только прописные буквы русского алфавита; для иных лиц – только прописные буквы латинского алфавита; цифры от 0 до 9; знаки препинания и разделители, в том числе пробел, символы «-» (дефис), «/» (дробная черта), «\» (обратная дробная черта), «№» (номер), «(» и «)» (открывающая и закрывающая круглые скобки), двойные прямые кавычки ("…").</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру; каждый управляющий символ (символ перевода строки, символ возврата каретки, табулятор и иные символы с кодами ASCII меньше 32) заменяется на пробел; двойные пробелы, знаки препинания, разделители, кавычки заменяются на одинарные символы</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value='[А-яA-z -"\\/()№]+'/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fiasType">
+		<xs:annotation>
+			<xs:documentation>5.12 Номер ФИАС. Формат: 5 групп символов, разделенных символом «-» (дефис), в том числе слева направо 1 группа из 8 символов, 3 группы по 4 символа, 1 группа из 12 символов, дефис в позициях 9, 14, 19 и 24.
+Допустимые символы: цифры от 0 до 9; строчные или прописные буквы латинского алфавита от a до f; 4 разделителя «-» (дефис).</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к нижнему регистру (строчные буквы); пробелы удаляются; идущие подряд дефисы заменяются на одинарный дефис; пробелы слева и справа от дефиса удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="7"/>
+			<xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="documentNumType">
+		<xs:annotation>
+			<xs:documentation>5.14 Номер документа или решения суда. Формат: произвольный.
+Допустимые символы: цифры; буквы только русского или только латинского алфавита; разделители «-» (дефис) и «/» (дробная черта).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="[А-яA-z\-/]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="taxNumType">
+		<xs:annotation>
+			<xs:documentation>5.15 Номер налогоплательщика. Формат: 12-значный цифровой код в соответствии со структурой ИНН физического лица или 10-значный цифровой код в соответствии со структурой ИНН юридического лица.
+Допустимые символы: цифры от 0 до 9.
+Допустимые значения: действительные коды ИНН в соответствии с правилами, установленными Федеральной налоговой службой.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:maxInclusive value="999999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="phoneType">
+		<xs:annotation>
+			<xs:documentation>5.18 Номер телефона. Длина: от 12 до 18 символов, включая скобки и символ «+» (плюс).
+Формат: «+А(BBB)ССССС», где «А» (1–3 цифры) – код страны, «B» (3–5 цифр) – внутризоновый код, «С» (5–7 цифр) – номер телефонного устройства.
+Допустимые символы: цифры от 0 до 9; символы «(» и «)» (открывающая и закрывающая круглые скобки), «+» (плюс).</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы и символы, кроме допустимых, удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="18"/>
+			<xs:minLength value="12"/>
+			<xs:pattern value="/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/
+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="percentType">
+		<xs:annotation>
+			<xs:documentation>5.24 Стоимость в процентах. Формат: десятичная дробь вида «dddd.ddd», где «dddd» – от 1 до 4 цифр в целой части, «ddd» – от 1 до 3 цифр в дробной части.
+Допустимые символы: цифры от 0 до 9 и одна десятичная точка.
+Допустимые значения: значение показателей ФЛ_22.1 и ФЛ_22.2 должны быть одновременно больше 0 либо равны 0.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:totalDigits value="7"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="postalType">
+		<xs:annotation>
+			<xs:documentation>5.30 Почтовый индекс.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="pastdueType">
+		<xs:annotation>
+			<xs:documentation>5.32 Продолжительность просрочки</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="99999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="indicatorType">
+		<xs:annotation>
+			<xs:documentation>6.1 Признак наличия чего либо</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="regNumType">
+		<xs:annotation>
+			<xs:documentation>7.2 Регистрационный номер. Длина: 13 символов для ОГРН; 15 символов для ОГРНИП.
+Формат: 13-значный цифровой код для ОГРН или 15-значный цифровой код для ОГРНИП.
+Допустимые символы: цифры от 0 до 9.</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\d{13}|\d{15})"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seriesType">
+		<xs:annotation>
+			<xs:documentation>7.8 Серия документа. Длина и формат: в соответствии со значением показателя «Код документа».
+Допустимые символы: цифры от 0 до 9; прописные буквы русского или латинского алфавита (в том числе для указания римских цифр); разделитель «-» (дефис).</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру; пробелы удаляются; двойные дефисы заменяются на одинарные символы</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="[\d-]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="socialIdType">
+		<xs:annotation>
+			<xs:documentation>7.9 СНИЛС</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы и дефисы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{11}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="urlType">
+		<xs:annotation>
+			<xs:documentation>7.12 URL. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="@^(https?|ftp)://[^\s/$.?#].[^\s]*$@iS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uidType">
+		<xs:annotation>
+			<xs:documentation>7.54 УИд. Длина: 38 символов.
+Формат: в соответствии с приложением 2 к Положению-758.
+Допустимые символы: цифры от 0 до 9 и буквы латинского алфавита от A до F; разделитель «-» (дефис).
+Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:documentation>
+			<xs:appinfo>Правила преобразования: буквы приводятся к нижнему регистру; двойные дефисы заменяются на одинарные символы; пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{3}1-[0-9a-fA-F]{3}[89a-fA-F]-[0-9a-fA-F]{12}-\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="jointDebtorsType">
+		<xs:annotation>
+			<xs:documentation>7.61 Число солидарных должников</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="9"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<!--Данная схема содержит справочники, изложенные в Положении 758 ЦБ РФ-->
+	<!--Раздел 4. Справочники для формирования значений показателей кредитной информации-->
+	<xs:simpleType name="idType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.1. Виды документов, удостоверяющих личность</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22.1"/>
+			<xs:enumeration value="22.2"/>
+			<xs:enumeration value="22.3"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="27"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="addressRegType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.2. Виды адреса регистрации</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="capacityType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.3. Виды дееспособности</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="bankruptcyStageType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.4. Стадии рассмотрения дела о банкротстве</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ratingInfluenceType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.5. Факторы влияния на индивидуальный рейтинг субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="8"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="ratingInabilityReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.6. Причины невозможности расчета индивидуального рейтинга субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="taxCodeType">
+		<xs:annotation>
+			<xs:documentation>Справочник 1.7. Виды номеров налогоплательщика</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="roleType">
+		<xs:annotation>
+			<xs:documentation>Справочник 2.1. Виды участия в сделке</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="5"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="dealType">
+		<xs:annotation>
+			<xs:documentation>Справочник 2.2. Типы сделки</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="loanType">
+		<xs:annotation>
+			<xs:documentation>Справочник 2.3. Виды займа (кредита)</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="8"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="loanReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 2.4. Цели займа (кредита)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2.1"/>
+			<xs:enumeration value="2.2"/>
+			<xs:enumeration value="2.3"/>
+			<xs:enumeration value="2.4"/>
+			<xs:enumeration value="2.5"/>
+			<xs:enumeration value="2.6"/>
+			<xs:enumeration value="2.7"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4.1"/>
+			<xs:enumeration value="4.2"/>
+			<xs:enumeration value="4.3"/>
+			<xs:enumeration value="4.4"/>
+			<xs:enumeration value="4.5"/>
+			<xs:enumeration value="4.6"/>
+			<xs:enumeration value="4.7"/>
+			<xs:enumeration value="4.8"/>
+			<xs:enumeration value="4.9"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16.1"/>
+			<xs:enumeration value="16.2"/>
+			<xs:enumeration value="16.3"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="payFrequencyType">
+		<xs:annotation>
+			<xs:documentation>Справочник 2.5. Частота платежей по обязательству</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="9"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="dealChangeType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.1. Виды изменения договора</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="graceType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.2. Виды льготного периода</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="settlementType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.3. Причины урегулирования проблемной задолженности</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="8"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="dealChangeOtherType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.4. Виды прочих изменений договора</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="19"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="dealChangeStopReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.5. Причины прекращения действия изменения договора</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="5"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="amountComplianceType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.6. Виды соблюдения размера платежей</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="scheculeComplianceType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.7. Виды соблюдения срока внесения платежей</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dealStopReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 3.8. Основания прекращения обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="15"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="collateralType">
+		<xs:annotation>
+			<xs:documentation>Справочник 4.1. Виды предметов залога и неденежных предоставлений по сделке</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="1.1"/>
+			<xs:enumeration value="1.2"/>
+			<xs:enumeration value="1.3"/>
+			<xs:enumeration value="1.4"/>
+			<xs:enumeration value="1.5"/>
+			<xs:enumeration value="1.6"/>
+			<xs:enumeration value="1.7"/>
+			<xs:enumeration value="1.8"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="2.1"/>
+			<xs:enumeration value="2.2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="3.1"/>
+			<xs:enumeration value="3.2"/>
+			<xs:enumeration value="3.3"/>
+			<xs:enumeration value="3.4"/>
+			<xs:enumeration value="3.5"/>
+			<xs:enumeration value="3.6"/>
+			<xs:enumeration value="3.7"/>
+			<xs:enumeration value="3.8"/>
+			<xs:enumeration value="3.9"/>
+			<xs:enumeration value="3.10"/>
+			<xs:enumeration value="3.11"/>
+			<xs:enumeration value="3.12"/>
+			<xs:enumeration value="3.99"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="4.1"/>
+			<xs:enumeration value="4.2"/>
+			<xs:enumeration value="4.99"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="5.1"/>
+			<xs:enumeration value="5.2"/>
+			<xs:enumeration value="5.3"/>
+			<xs:enumeration value="5.4"/>
+			<xs:enumeration value="5.5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="6.1"/>
+			<xs:enumeration value="6.2"/>
+			<xs:enumeration value="6.3"/>
+			<xs:enumeration value="6.4"/>
+			<xs:enumeration value="6.5"/>
+			<xs:enumeration value="6.6"/>
+			<xs:enumeration value="6.7"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="7.1"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="8.1"/>
+			<xs:enumeration value="8.2"/>
+			<xs:enumeration value="8.3"/>
+			<xs:enumeration value="8.4"/>
+			<xs:enumeration value="8.5"/>
+			<xs:enumeration value="8.6"/>
+			<xs:enumeration value="8.7"/>
+			<xs:enumeration value="8.8"/>
+			<xs:enumeration value="8.9"/>
+			<xs:enumeration value="8.10"/>
+			<xs:enumeration value="8.11"/>
+			<xs:enumeration value="8.99"/>
+			<xs:enumeration value="9"/>
+			<xs:enumeration value="8.1"/>
+			<xs:enumeration value="8.2"/>
+			<xs:enumeration value="8.3"/>
+			<xs:enumeration value="8.4"/>
+			<xs:enumeration value="8.5"/>
+			<xs:enumeration value="8.6"/>
+			<xs:enumeration value="8.7"/>
+			<xs:enumeration value="8.8"/>
+			<xs:enumeration value="8.9"/>
+			<xs:enumeration value="8.99"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="10.1"/>
+			<xs:enumeration value="10.2"/>
+			<xs:enumeration value="10.3"/>
+			<xs:enumeration value="10.4"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="11.1"/>
+			<xs:enumeration value="11.2"/>
+			<xs:enumeration value="11.3"/>
+			<xs:enumeration value="11.4"/>
+			<xs:enumeration value="11.5"/>
+			<xs:enumeration value="11.6"/>
+			<xs:enumeration value="11.99"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="12.1"/>
+			<xs:enumeration value="12.2"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="13.1"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="14.1"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="15.1"/>
+			<xs:enumeration value="15.2"/>
+			<xs:enumeration value="15.3"/>
+			<xs:enumeration value="15.4"/>
+			<xs:enumeration value="15.99"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="16.1"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="17.1"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="18.1"/>
+			<xs:enumeration value="18.2"/>
+			<xs:enumeration value="18.3"/>
+			<xs:enumeration value="18.99"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="19.1"/>
+			<xs:enumeration value="19.2"/>
+			<xs:enumeration value="19.3"/>
+			<xs:enumeration value="19.99"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="20.1"/>
+			<xs:enumeration value="20.2"/>
+			<xs:enumeration value="20.3"/>
+			<xs:enumeration value="20.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="securingStopReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 4.2. Причины прекращения обеспечения</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="securingType">
+		<xs:annotation>
+			<xs:documentation>Справочник 4.3. Виды использованного обеспечения</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="debtClaimType">
+		<xs:annotation>
+			<xs:documentation>Справочник 5.1. Виды взыскиваемых долгов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="requestInfoType">
+		<xs:annotation>
+			<xs:documentation>Справочник 5.2. Виды запрашиваемых пользователем сведений</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="requestReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник 5.3. Цели запроса</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="27"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="infoStopType">
+		<xs:annotation>
+			<xs:documentation>Справочник 5.4. Причины прекращения передачи информации</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sourceType">
+		<xs:annotation>
+			<xs:documentation>Справочник 6.1. Виды источников</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="17"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="customerType">
+		<xs:annotation>
+			<xs:documentation>Справочник 6.2. Виды пользователей кредитной истории</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="9"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="acquirerType">
+		<xs:annotation>
+			<xs:documentation>Справочник 6.3. Виды приобретателей прав кредитора – юридического лица</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="submissionType">
+		<xs:annotation>
+			<xs:documentation>Справочник 6.4. Виды обращений с предложением совершить сделку</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="other99Type">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="5"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="rejectType">
+		<xs:annotation>
+			<xs:documentation>Справочник 6.5. Причины отказа совершить сделку</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="other99Type">
+		<xs:annotation>
+			<xs:documentation>Вспомогательный тип</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="99"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

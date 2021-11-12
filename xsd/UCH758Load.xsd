@@ -1,0 +1,1815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:include schemaLocation="UCH758Model.xsd"/>
+	<!--Данная схема содержит модель загрузки записей Кредитной физического и юридического лиц, составленную по Положению-758 ЦБ РФ и описывает все релевантные сценарии загрузки, описанные в этом документе-->
+	<!--Схема импортирует схему с моделью данных по Положению-758, типы которого использованы в сценариях загрузки-->
+	<!--Записи (RecordType) приходят в пакете (package) и содержат события (event) абстрактного типа EventType, в который должны подставляться данные реальных типов PersonEventType и OrgEventType-->
+	<!--В схеме элементы расположены в порядке, в котором они встречаются в Положении-758 и пронумерованы в аннотациях соответствующими номерами-->
+	<!--Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации-->
+	<xs:element name="package">
+		<xs:annotation>
+			<xs:documentation>Пакет данных</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="externalID">
+					<xs:annotation>
+						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="prevExternalID" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями с ранее не принятой кредитной информацией – для документа, содержащего кредитную информацию, которая ранее была не принята.
+
+Заполняется в случае корректировки</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="createDate" type="dateType">
+					<xs:annotation>
+						<xs:documentation>Дата и время создания документа</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="totalRecords">
+					<xs:annotation>
+						<xs:documentation>Количество записей в пакете для сверки</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalSubjects">
+					<xs:annotation>
+						<xs:documentation>Количество субъектов в пакете для сверки (необязательный параметр)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:maxInclusive value="999999999"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="source">
+					<xs:annotation>
+						<xs:documentation>Сведения о партнере</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="SourceInfo"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="record" type="RecordType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Запись с событием Кредитной Истории</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="RecordType">
+		<xs:annotation>
+			<xs:documentation>Запись в пакете</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="orderNum">
+				<xs:annotation>
+					<xs:documentation>Идентификатор записи по данным источника  (Порядковый номер записи в файле)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:maxInclusive value="9999999999"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="eventDate" type="dateType">
+				<xs:annotation>
+					<xs:documentation>Дата события</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="operationType">
+				<xs:annotation>
+					<xs:documentation>Тип операции</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="event" type="EventType">
+				<xs:annotation>
+					<xs:documentation>Событие Кредитной Истории. Для Физического Лица используется PersonEventType. Для Юридического Лица используется OrgEventType</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Событие Кредитной Истории (абстрактный базовый тип)</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="PersonEventType">
+		<xs:annotation>
+			<xs:documentation>Событие Кредитной Истории Физического Лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="EventType">
+				<xs:group ref="PersonEvents"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OrgEventType">
+		<xs:annotation>
+			<xs:documentation>Событие Кредитной Истории Юридического Лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="EventType">
+				<xs:group ref="OrgEvents"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InternalEventType">
+		<xs:annotation>
+			<xs:documentation>Внутреннее событие Кредитной - используется только Кредитным Бюро</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="EventType">
+				<xs:group ref="InternalEvеnts"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="PersonEvents">
+		<xs:annotation>
+			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:group ref="SubjectEvents"/>
+				<xs:group ref="DealEvents"/>
+			</xs:choice>
+			<xs:element name="subject">
+				<xs:annotation>
+					<xs:documentation>Титульная часть КИ Субъекта, используется только для поиска Субъекта</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="SubjectMain"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubjectEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по субъекту</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="subjectApplied" type="SubjectAppliedType">
+				<xs:annotation>
+					<xs:documentation>1.1 Субъект обратился к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicationChanged" type="ApplicationChangedType">
+				<xs:annotation>
+					<xs:documentation>1.2 Источник одобрил обращение субъекта (направил ему оферту) или изменились сведения об обращении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicationRejected" type="ApplicationRejectedType">
+				<xs:annotation>
+					<xs:documentation>1.3 Источник отказался от совершения сделки по обращению субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="monetaryDealMade" type="MonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceNonMonetaryDealMade" type="SourceNonMonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nonMonetaryDealMade" type="NonMonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="leasingDealMade" type="LeasingDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="debtClaimSubmitted" type="DebtClaimSubmittedType">
+				<xs:annotation>
+					<xs:documentation>1.5 Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="debtClaimChanged" type="DebtClaimChangedType">
+				<xs:annotation>
+					<xs:documentation>1.6 Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectMainChanged" type="SubjectMainChangedType">
+				<xs:annotation>
+					<xs:documentation>1.7 Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectSpecialChanged" type="SubjectSpecialChangedType">
+				<xs:annotation>
+					<xs:documentation>1.9 Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectCapacityChanged" type="SubjectCapacityChangedType">
+				<xs:annotation>
+					<xs:documentation>1.10 Изменились сведения о дееспособности субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectBankruptcyChanged" type="SubjectBankruptcyChangedType">
+				<xs:annotation>
+					<xs:documentation>1.12 Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="SubjectAppliedType">
+		<xs:annotation>
+			<xs:documentation>1.1 Субъект обратился к источнику с предложением совершить сделку</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="application" type="ApplicationType">
+				<xs:annotation>
+					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicationChangedType">
+		<xs:annotation>
+			<xs:documentation>1.2 Источник одобрил обращение субъекта (направил ему оферту) или изменились сведения об обращении</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="application" type="ApplicationType">
+				<xs:annotation>
+					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicationRejectedType">
+		<xs:annotation>
+			<xs:documentation>1.3 Источник отказался от совершения сделки по обращению субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="application" type="ApplicationType">
+				<xs:annotation>
+					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="appReject" type="AppRejectType">
+				<xs:annotation>
+					<xs:documentation>Блок 57. (юр Блок 47) Сведения об отказе источника от предложения совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="DealMade"/>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentTerms" type="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceNonMonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="DealMade"/>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonMonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="DealMade"/>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LeasingDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="DealMade"/>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentTerms" type="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="DealFulfillmentMain"/>
+			<xs:element name="avgPayment" type="AvgPaymentType">
+				<xs:annotation>
+					<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DebtClaimSubmittedType">
+		<xs:annotation>
+			<xs:documentation>1.5 Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubjectSpecialMain"/>
+			<xs:element name="collection" type="CollectionType">
+				<xs:annotation>
+					<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DebtClaimChangedType">
+		<xs:annotation>
+			<xs:documentation>1.6 Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="collection" type="CollectionType">
+				<xs:annotation>
+					<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectMainChangedType">
+		<xs:annotation>
+			<xs:documentation>1.7 и 1.8 Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="SubjectMain"/>
+	</xs:complexType>
+	<xs:complexType name="SubjectSpecialChangedType">
+		<xs:annotation>
+			<xs:documentation>1.9 Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="regAddress" type="AddressType">
+				<xs:annotation>
+					<xs:documentation>Блок 8. Регистрация физического лица по месту жительства или пребывания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="factAddress" type="AddressType">
+				<xs:annotation>
+					<xs:documentation>Блок 9. Фактическое место жительства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contact" type="ContactType">
+				<xs:annotation>
+					<xs:documentation>Блок 10. Контактные данные</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="selfEmploy" type="SelfEmployType">
+				<xs:annotation>
+					<xs:documentation>Блок 11. Государственная регистрация в качестве индивидуального предпринимателя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectCapacityChangedType">
+		<xs:annotation>
+			<xs:documentation>1.10 и 1.11 Изменились сведения о дееспособности субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="legalCapacity" type="LegalCapacityType">
+				<xs:annotation>
+					<xs:documentation>Блок 12. Сведения о дееспособности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubjectBankruptcyChangedType">
+		<xs:annotation>
+			<xs:documentation>1.12 Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bankruptcy" type="BankruptcyType">
+				<xs:annotation>
+					<xs:documentation>Блок 13. (юр Блок 6) Сведения по делу о несостоятельности (банкротстве)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fulfillment" type="FulfillmentType">
+				<xs:annotation>
+					<xs:documentation>Блок 14. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RatingCalculatedType">
+		<xs:annotation>
+			<xs:documentation>1.13 Рассчитан индивидуальный рейтинг субъекта (вследствие обращения за его рейтингом или кредитным отчетом)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Rating" type="RatingType">
+				<xs:annotation>
+					<xs:documentation>Блок 15. Индивидуальный рейтинг субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ScoringRequestedType">
+		<xs:annotation>
+			<xs:documentation>1.14 Пользователь обратился за кредитной оценкой (скорингом) субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Score" type="ScoreType">
+				<xs:annotation>
+					<xs:documentation>Блок 16. (юр Блок 9) Кредитная оценка (скоринг)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReportRequestedType">
+		<xs:annotation>
+			<xs:documentation>1.15 Пользователь запросил кредитный отчет субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="customerRequest" type="CustomerRequestType">
+				<xs:annotation>
+					<xs:documentation>Блок 44. (юр Блок 34) Сведения о запросе информации пользователем</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="DealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по сделке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dealUid" type="DealUidType">
+				<xs:annotation>
+					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:group ref="SubjectDealEvents"/>
+				<xs:group ref="OtherDealEvents"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubjectDealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по сделке применительно к субъекту</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subjectRole" type="roleType">
+				<xs:annotation>
+					<xs:documentation>Блок 18+ Код вида участия в сделке (Отличие от Положения-758: Выделено из Блока 18, потому что не является свойством Договора, а является свойством Субъекта в сделке по Договору, поэтому обрабатывается отдельно)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="monetaryDealChanged" type="MonetaryDealChangedType">
+					<xs:annotation>
+						<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealChanged" type="NonMonetaryDealChangedType">
+					<xs:annotation>
+						<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealPrincipalChanged" type="MonetaryDealPrincipalChangedType">
+					<xs:annotation>
+						<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealPrincipalChanged" type="NonMonetaryDealPrincipalChangedType">
+					<xs:annotation>
+						<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealPerformanceChanged" type="MonetaryDealPerformanceChangedType">
+					<xs:annotation>
+						<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealPerformanceChanged" type="NonMonetaryDealPerformanceChangedType">
+					<xs:annotation>
+						<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dealSecuringChanged" type="DealSecuringChangedType">
+					<xs:annotation>
+						<xs:documentation>2.4 Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealEnded" type="MonetaryDealEndedType">
+					<xs:annotation>
+						<xs:documentation>2.5 Обязательство субъекта прекратилось для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealEnded" type="NonMonetaryDealEndedType">
+					<xs:annotation>
+						<xs:documentation>2.5 Обязательство субъекта прекратилось для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dealClaimChanged" type="DealClaimChangedType">
+					<xs:annotation>
+						<xs:documentation>2.6 Изменились сведения о судебном споре или требовании по обязательству</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyStarted" type="SourceBankruptcyStartedType">
+					<xs:annotation>
+						<xs:documentation>2.8.1 Конкурсное производство в отношении источника открылось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyChanged" type="SourceBankruptcyChangedType">
+					<xs:annotation>
+						<xs:documentation>2.8.2 В ходе конкурсного производства изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyEnded" type="SourceBankruptcyEndedType">
+					<xs:annotation>
+						<xs:documentation>2.8.3 Конкурсное производство в отношении источника завершилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationStarted" type="SourceLiquidationStartedType">
+					<xs:annotation>
+						<xs:documentation>2.9.1 Процесс ликвидации источника начался</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationChanged" type="SourceLiquidationChangedType">
+					<xs:annotation>
+						<xs:documentation>2.9.2 В ходе процесса ликвидации изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationEnded" type="SourceLiquidationEndedType">
+					<xs:annotation>
+						<xs:documentation>2.9.3 Процесс ликвидации источника завершился</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="MonetaryDealChangedType">
+		<xs:annotation>
+			<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="change" type="DealChangeType">
+				<xs:annotation>
+					<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="PersonMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonMonetaryDealChangedType">
+		<xs:annotation>
+			<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="change" type="DealChangeType">
+				<xs:annotation>
+					<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MonetaryDealPrincipalChangedType">
+		<xs:annotation>
+			<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="PersonMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonMonetaryDealPrincipalChangedType">
+		<xs:annotation>
+			<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MonetaryDealPerformanceChangedType">
+		<xs:annotation>
+			<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="PersonMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonMonetaryDealPerformanceChangedType">
+		<xs:annotation>
+			<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DealSecuringChangedType">
+		<xs:annotation>
+			<xs:documentation>2.4 Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="DealSecuring"/>
+	</xs:complexType>
+	<xs:complexType name="MonetaryDealEndedType">
+		<xs:annotation>
+			<xs:documentation>2.5 Обязательство субъекта прекратилось для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="termination" type="TerminationType">
+				<xs:annotation>
+					<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="PersonMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonMonetaryDealEndedType">
+		<xs:annotation>
+			<xs:documentation>2.5 Обязательство субъекта прекратилось для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="termination" type="TerminationType">
+				<xs:annotation>
+					<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DealClaimChangedType">
+		<xs:annotation>
+			<xs:documentation>2.6 Изменились сведения о судебном споре или требовании по обязательству</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lawsuit" type="LawsuitType">
+				<xs:annotation>
+					<xs:documentation>Блок 39. (юр Блок 30) Сведения о судебном споре или требовании по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AvgPaymentsSuppliedType">
+		<xs:annotation>
+			<xs:documentation>2.7 Квалифицированное бюро получило от бюро данные для формирования сведений о среднемесячных платежах субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="avgPayments">
+				<xs:annotation>
+					<xs:documentation>Блок 40. Сведения квалифицированного бюро о среднемесячных платежах по договору займа (кредита)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceBankruptcyStartedType">
+		<xs:annotation>
+			<xs:documentation>2.8.1 Конкурсное производство в отношении источника открылось</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 41. (юр Блок 31) Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceBankruptcyChangedType">
+		<xs:annotation>
+			<xs:documentation>2.8.2 В ходе конкурсного производства изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 41. (юр Блок 31) Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceBankruptcyEndedType">
+		<xs:annotation>
+			<xs:documentation>2.8.3 Конкурсное производство в отношении источника завершилось</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 41. (юр Блок 31) Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceLiquidationStartedType">
+		<xs:annotation>
+			<xs:documentation>2.9.1 Процесс ликвидации источника начался</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 42. Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceLiquidationChangedType">
+		<xs:annotation>
+			<xs:documentation>2.9.2 В ходе процесса ликвидации изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 42. (юр Блок 32) Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceLiquidationEndedType">
+		<xs:annotation>
+			<xs:documentation>2.9.3 Процесс ликвидации источника завершился</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType">
+				<xs:annotation>
+					<xs:documentation>Блок 42. (юр Блок 32) Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="OtherDealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа других событий по сделке</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="dealInfoStopped" type="DealInfoStoppedType">
+				<xs:annotation>
+					<xs:documentation>2.10 Источник прекратил передачу информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creditorChanged" type="CreditorChangedType">
+				<xs:annotation>
+					<xs:documentation>2.11 Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="serviceOrgChanged" type="ServiceOrgChangedType">
+				<xs:annotation>
+					<xs:documentation>2.12 Изменились сведения об обслуживающей организации (в частности, заключен, изменен или расторгнут договор обслуживания)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="DealInfoStoppedType">
+		<xs:annotation>
+			<xs:documentation>2.10 Источник прекратил передачу информации по обязательству</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CreditorChangedType">
+		<xs:annotation>
+			<xs:documentation>2.11 Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="orgAcquirerInfo" type="OrgAcquirerInfoType" minOccurs="0" maxOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Блок 51. (юр Блок 41) Сведения о приобретателе прав – юридическом лице</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="personAcquirerInfo" type="PersonAcquirerInfoType" minOccurs="0" maxOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Блок 52. (юр Блок 42) Сведения о приобретателе прав – физическом лице</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ServiceOrgChangedType">
+		<xs:annotation>
+			<xs:documentation>2.12 Изменились сведения об обслуживающей организации (в частности, заключен, изменен или расторгнут договор обслуживания)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="serviceOrgInfo" type="ServiceOrgInfoType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 53. (юр Блок 43) Сведения об обслуживающей организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="InternalEvеnts">
+		<xs:annotation>
+			<xs:documentation>Группа событий по субъекту, заполняемых Бюро</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ratingCalculated" type="ReportRequestedType">
+				<xs:annotation>
+					<xs:documentation>1.13 Рассчитан индивидуальный рейтинг субъекта (вследствие обращения за его рейтингом или кредитным отчетом)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="scoringRequested" type="ReportRequestedType">
+				<xs:annotation>
+					<xs:documentation>1.14 Пользователь обратился за кредитной оценкой (скорингом) субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="reportRequested" type="ReportRequestedType">
+				<xs:annotation>
+					<xs:documentation>1.15 Пользователь запросил кредитный отчет субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="avgPaymentsSupplied" type="ReportRequestedType">
+				<xs:annotation>
+					<xs:documentation>2.7 Квалифицированное бюро получило от бюро данные для формирования сведений о среднемесячных платежах субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="DealMade">
+		<xs:annotation>
+			<xs:documentation>Базовая группа элементов для сделки</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubjectSpecialMain"/>
+			<xs:element name="dealUid" type="DealUidType">
+				<xs:annotation>
+					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalCost" type="TotalCostType">
+				<xs:annotation>
+					<xs:documentation>Блок 22. Полная стоимость потребительского кредита (займа)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="application" type="ApplicationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="DealFulfillmentMain">
+		<xs:annotation>
+			<xs:documentation>Главная группа  элементов по выполнению сделки</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fundDate" type="FundDateType">
+				<xs:annotation>
+					<xs:documentation>Блок 24. (юр Блок 16) Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="arrear" type="ArrearType">
+				<xs:annotation>
+					<xs:documentation>Блок 25. (юр Блок 17) Сведения о задолженности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dueArrear" type="DueArrearType">
+				<xs:annotation>
+					<xs:documentation>Блок 26. (юр Блок 18) Сведения о срочной задолженности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pastdueArrear" type="PastdueArrearType">
+				<xs:annotation>
+					<xs:documentation>Блок 27. (юр Блок 19) Сведения о просроченной задолженности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="payments" type="PaymentsType">
+				<xs:annotation>
+					<xs:documentation>Блок 28. (юр Блок 20) Сведения о внесении платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubjectSpecialMain">
+		<xs:annotation>
+			<xs:documentation>Главная группа элементов специальной части КИ субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="regAddress" type="AddressType">
+				<xs:annotation>
+					<xs:documentation>Блок 8. Регистрация физического лица по месту жительства или пребывания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="factAddress" type="AddressType">
+				<xs:annotation>
+					<xs:documentation>Блок 9. Фактическое место жительства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contact" type="ContactType">
+				<xs:annotation>
+					<xs:documentation>Блок 10. Контактные данные</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="selfEmploy" type="SelfEmployType">
+				<xs:annotation>
+					<xs:documentation>Блок 11. Государственная регистрация в качестве индивидуального предпринимателя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="legalCapacity" type="LegalCapacityType">
+				<xs:annotation>
+					<xs:documentation>Блок 12. Сведения о дееспособности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="PersonMonetaryObligationBlocks">
+		<xs:annotation>
+			<xs:documentation>Группа блоков по денежным обязательствам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgMonetaryObligationBlocks"/>
+			<xs:element name="totalCost" type="TotalCostType">
+				<xs:annotation>
+					<xs:documentation>Блок 22. Полная стоимость потребительского кредита (займа)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="monthlyPayment" type="MonthlyPaymentType">
+				<xs:annotation>
+					<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="OrgEvents">
+		<xs:annotation>
+			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:group ref="OrgSubjectEvents"/>
+				<xs:group ref="OrgDealEvents"/>
+			</xs:choice>
+			<xs:element name="subject">
+				<xs:annotation>
+					<xs:documentation>Титульная часть КИ Субъекта, используется только для поиска Субъекта</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="SubjectMain"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="OrgSubjectEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по субъекту</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="subjectApplied" type="SubjectAppliedType">
+				<xs:annotation>
+					<xs:documentation>1.1 Субъект обратился к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicationChanged" type="ApplicationChangedType">
+				<xs:annotation>
+					<xs:documentation>1.2 Источник одобрил обращение субъекта (направил ему оферту) или изменились сведения об обращении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicationRejected" type="ApplicationRejectedType">
+				<xs:annotation>
+					<xs:documentation>1.3 Источник отказался от совершения сделки по обращению субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="monetaryDealMade" type="OrgMonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceNonMonetaryDealMade" type="OrgSourceNonMonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nonMonetaryDealMade" type="OrgNonMonetaryDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="leasingDealMade" type="OrgLeasingDealMadeType">
+				<xs:annotation>
+					<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="debtClaimSubmitted" type="OrgDebtClaimSubmittedType">
+				<xs:annotation>
+					<xs:documentation>1.5 Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="debtClaimChanged" type="OrgDebtClaimChangedType">
+				<xs:annotation>
+					<xs:documentation>1.6 Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectMainChanged" type="OrgSubjectMainChangedType">
+				<xs:annotation>
+					<xs:documentation>1.7 Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectSpecialChanged" type="OrgSubjectSpecialChangedType">
+				<xs:annotation>
+					<xs:documentation>1.9 Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectBankruptcyChanged" type="OrgSubjectBankruptcyChangedType">
+				<xs:annotation>
+					<xs:documentation>1.12 Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="OrgDealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по сделке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dealUid" type="DealUidType">
+				<xs:annotation>
+					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:group ref="OrgSubjectDealEvents"/>
+				<xs:group ref="OrgOtherDealEvents"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="OrgMonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgDealMade"/>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentTerms" type="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgSourceNonMonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgDealMade"/>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgNonMonetaryDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgDealMade"/>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgLeasingDealMadeType">
+		<xs:annotation>
+			<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="OrgDealMade"/>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentTerms" type="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="DealFulfillmentMain"/>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgDebtClaimSubmittedType">
+		<xs:annotation>
+			<xs:documentation>1.5 Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="prevOrg" type="PrevOrgType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>юр Блок 8. Сведения об основных частях кредитных историй юридического лица, от которого субъекту перешли права и обязанности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="collection" type="CollectionType">
+				<xs:annotation>
+					<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgDebtClaimChangedType">
+		<xs:annotation>
+			<xs:documentation>1.6 Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="collection" type="CollectionType">
+				<xs:annotation>
+					<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgSubjectMainChangedType">
+		<xs:annotation>
+			<xs:documentation>1.7 Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="OrgMain"/>
+	</xs:complexType>
+	<xs:complexType name="OrgSubjectSpecialChangedType">
+		<xs:annotation>
+			<xs:documentation>1.9 Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="regAddress" type="AddressType">
+				<xs:annotation>
+					<xs:documentation>Блок 8. Регистрация физического лица по месту жительства или пребывания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgSubjectCapacityChangedType">
+		<xs:annotation>
+			<xs:documentation>1.10 Изменились сведения о дееспособности субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="legalCapacity" type="LegalCapacityType">
+				<xs:annotation>
+					<xs:documentation>Блок 12. Сведения о дееспособности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgSubjectBankruptcyChangedType">
+		<xs:annotation>
+			<xs:documentation>1.12 Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bankruptcy" type="BankruptcyType">
+				<xs:annotation>
+					<xs:documentation>Блок 13. (юр Блок 6) Сведения по делу о несостоятельности (банкротстве)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fulfillment" type="OrgFulfillmentType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 7. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="OrgSubjectDealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа событий по сделке применительно к субъекту</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subjectRole" type="roleType">
+				<xs:annotation>
+					<xs:documentation>11+ Код вида участия в сделке (Отличие от Положения-758: Выделено из Блока 11, потому что не является свойством Договора, а является свойством Субъекта в сделке по Договору, поэтому обрабатывается отдельно)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="monetaryDealChanged" type="OrgMonetaryDealChangedType">
+					<xs:annotation>
+						<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealChanged" type="OrgNonMonetaryDealChangedType">
+					<xs:annotation>
+						<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealPrincipalChanged" type="OrgMonetaryDealPrincipalChangedType">
+					<xs:annotation>
+						<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealPrincipalChanged" type="OrgNonMonetaryDealPrincipalChangedType">
+					<xs:annotation>
+						<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealPerformanceChanged" type="OrgMonetaryDealPerformanceChangedType">
+					<xs:annotation>
+						<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealPerformanceChanged" type="OrgNonMonetaryDealPerformanceChangedType">
+					<xs:annotation>
+						<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dealSecuringChanged" type="DealSecuringChangedType">
+					<xs:annotation>
+						<xs:documentation>2.4 Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="monetaryDealEnded" type="OrgMonetaryDealEndedType">
+					<xs:annotation>
+						<xs:documentation>2.5 Обязательство субъекта прекратилось для денежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="nonMonetaryDealEnded" type="OrgNonMonetaryDealEndedType">
+					<xs:annotation>
+						<xs:documentation>2.5 Обязательство субъекта прекратилось для неденежного обязательства</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dealClaimChanged" type="DealClaimChangedType">
+					<xs:annotation>
+						<xs:documentation>2.6 Изменились сведения о судебном споре или требовании по обязательству</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyStarted" type="SourceBankruptcyStartedType">
+					<xs:annotation>
+						<xs:documentation>2.8.1 Конкурсное производство в отношении источника открылось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyChanged" type="SourceBankruptcyChangedType">
+					<xs:annotation>
+						<xs:documentation>2.8.2 В ходе конкурсного производства изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceBankruptcyEnded" type="SourceBankruptcyEndedType">
+					<xs:annotation>
+						<xs:documentation>2.8.3 Конкурсное производство в отношении источника завершилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationStarted" type="SourceLiquidationStartedType">
+					<xs:annotation>
+						<xs:documentation>2.9.1 Процесс ликвидации источника начался</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationChanged" type="SourceLiquidationChangedType">
+					<xs:annotation>
+						<xs:documentation>2.9.2 В ходе процесса ликвидации изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sourceLiquidationEnded" type="SourceLiquidationEndedType">
+					<xs:annotation>
+						<xs:documentation>2.9.3 Процесс ликвидации источника завершился</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="OrgMonetaryDealChangedType">
+		<xs:annotation>
+			<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="change" type="DealChangeType">
+				<xs:annotation>
+					<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="OrgMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgNonMonetaryDealChangedType">
+		<xs:annotation>
+			<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="change" type="DealChangeType">
+				<xs:annotation>
+					<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgMonetaryDealPrincipalChangedType">
+		<xs:annotation>
+			<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="PersonDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="OrgMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgNonMonetaryDealPrincipalChangedType">
+		<xs:annotation>
+			<xs:documentation>2.2 Субъекту передана сумма займа (кредита) либо субъект стал принципалом по гарантии или поручителем по сделке, кроме договора лизинга для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgMonetaryDealPerformanceChangedType">
+		<xs:annotation>
+			<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="OrgMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgNonMonetaryDealPerformanceChangedType">
+		<xs:annotation>
+			<xs:documentation>2.3 Изменились сведения об исполнении обязательства субъектом, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgDealSecuringChangedType">
+		<xs:annotation>
+			<xs:documentation>2.4 Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="DealSecuring"/>
+	</xs:complexType>
+	<xs:complexType name="OrgMonetaryDealEndedType">
+		<xs:annotation>
+			<xs:documentation>2.5 Обязательство субъекта прекратилось для денежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="termination" type="TerminationType">
+				<xs:annotation>
+					<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="OrgMonetaryObligationBlocks"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrgNonMonetaryDealEndedType">
+		<xs:annotation>
+			<xs:documentation>2.5 Обязательство субъекта прекратилось для неденежного обязательства</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="termination" type="TerminationType">
+				<xs:annotation>
+					<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="participation" type="ParticipationType">
+				<xs:annotation>
+					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+				<xs:annotation>
+					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="OrgOtherDealEvents">
+		<xs:annotation>
+			<xs:documentation>Группа других событий по сделке</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="dealInfoStopped" type="DealInfoStoppedType">
+				<xs:annotation>
+					<xs:documentation>2.10 Источник прекратил передачу информации по обязательству</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creditorChanged" type="CreditorChangedType">
+				<xs:annotation>
+					<xs:documentation>2.11 Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="serviceOrgChanged" type="ServiceOrgChangedType">
+				<xs:annotation>
+					<xs:documentation>2.12 Изменились сведения об обслуживающей организации (в частности, заключен, изменен или расторгнут договор обслуживания)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="OrgDealMade">
+		<xs:annotation>
+			<xs:documentation>Базовая группа элементов для сделки</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="prevOrg" type="PrevOrgType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>юр Блок 8. Сведения об основных частях кредитных историй юридического лица, от которого субъекту перешли права и обязанности</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dealUid" type="DealUidType">
+				<xs:annotation>
+					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="main" type="OrgDealMainType">
+				<xs:annotation>
+					<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jointDebtors" type="JointDebtorsType">
+				<xs:annotation>
+					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accounting" minOccurs="0" maxOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="application" type="ApplicationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="OrgMonetaryObligationBlocks">
+		<xs:annotation>
+			<xs:documentation>Группа блоков по денежным обязательствам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="amount" type="DealAmountType">
+				<xs:annotation>
+					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentTerms" type="PaymentTermsType">
+				<xs:annotation>
+					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="DealFulfillmentMain"/>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>
