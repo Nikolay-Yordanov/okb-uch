@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
-<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
 	<!--Данная схема содержит справочники, изложенные в Положении 758 ЦБ РФ-->
-	<!--Раздел 4. Справочники для формирования значений показателей кредитной информации-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 4. Справочники для формирования значений показателей кредитной информации</xs:documentation>
+	</xs:annotation>
 	<xs:simpleType name="idType">
 		<xs:annotation>
 			<xs:documentation>Справочник 1.1. Виды документов, удостоверяющих личность</xs:documentation>

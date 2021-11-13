@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
-<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
 	<xs:include schemaLocation="UCH758Model.xsd"/>
 	<!--Данная схема содержит модель Кредитных Отчетов физического и юридического лиц-->
 	<!--Схема импортирует схему с моделью данных по Положению-758, типы которого использованы в сценариях загрузки-->
 	<!--В схеме есть глобальный элемент report абстрактного типа BaseReportType, который заменяется на унаследованные типы при заполнении-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Отчеты</xs:documentation>
+	</xs:annotation>
 	<xs:element name="report" type="BaseReportType">
 		<xs:annotation>
 			<xs:documentation>Отчет</xs:documentation>

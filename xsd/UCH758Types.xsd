@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
-<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
 	<!--Данная схема содержит типы, изложенные в Положении 758 ЦБ РФ и вспомогательные типы-->
-	<!--Раздел 6. Технические требования к показателям кредитной информации-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 1. Общие требования к формированию кредитной информации</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="operationType">
+		<xs:annotation>
+			<xs:documentation>Код операции, в рамках которой сформирована группа блоков показателей:
+A – источник направляет кредитную информацию о субъекте или его отдельном обязательстве впервые;
+B – кредитная информация изменяется или дополняется;
+C – исправляется ошибка в кредитной информации или представляется непринятая бюро кредитная информация;
+D – аннулируются сведения.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A">
+				<xs:annotation>
+					<xs:documentation>Источник направляет кредитную информацию о субъекте или его отдельном обязательстве впервые</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B">
+				<xs:annotation>
+					<xs:documentation>Кредитная информация изменяется или дополняется</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="C">
+				<xs:annotation>
+					<xs:documentation>Исправляется ошибка в кредитной информации или представляется непринятая бюро кредитная информация</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="D">
+				<xs:annotation>
+					<xs:documentation>Аннулируются сведения</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="countType">
+		<xs:annotation>
+			<xs:documentation>Количество соответствующих элементов в пакете или записи или порядковый номер</xs:documentation>
+			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:maxInclusive value="999999"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:annotation>
+		<xs:documentation>Раздел 6. Технические требования к показателям кредитной информации</xs:documentation>
+	</xs:annotation>
 	<xs:simpleType name="addressFiasType">
 		<xs:annotation>
 			<xs:documentation>1.1 Адрес организации. Формаt: в соответствии со структурой адреса в ФИАС.
@@ -69,9 +116,7 @@
 	<xs:simpleType name="buildingType">
 		<xs:annotation>
 			<xs:documentation>1.12 Владение. Формат: 1) номер – последовательность от 1 до 5 цифр; 2) номер с литерой – последовательность цифр с буквой в конце; 3) два номера (каждый из которых может быть с литерой), разделенные символом «-» (дефис); 4) два или более номера в формате «1», «2» или «3», разделенные символом «/» (дробная черта).
-Допустимые символы: цифры от 0 до 9; буквы русского алфавита в верхнем регистре от А до Я или в нижнем регистре от а до я; символ «/» (дробная черта).
-Допустимые значения: не ограничиваются.
-</xs:documentation>
+Допустимые символы: цифры от 0 до 9; буквы русского алфавита в верхнем регистре от А до Я или в нижнем регистре от а до я; символ «/» (дробная черта).</xs:documentation>
 			<xs:appinfo>Правила преобразования: буквы приводятся к верхнему регистру, пробелы удаляются</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -121,9 +166,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="leiType">
 		<xs:annotation>
-			<xs:documentation>3.7 Идентификатор LEI. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица».
-Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z.
-Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
+			<xs:documentation>3.7 Идентификатор LEI. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица». Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z. Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
 			<xs:appinfo>Правила преобразования: пробелы удаляются</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -161,9 +204,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="ocatoType">
 		<xs:annotation>
-			<xs:documentation>4.11 Код населенного пункта по ОКАТО. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица».
-Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z.
-Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
+			<xs:documentation>4.11 Код населенного пункта по ОКАТО. Формат: в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица». Допустимые символы: цифры от 0 до 9, прописные буквы латинского алфавита от A до Z. Допустимые значения: официально зарегистрированные коды идентификации юридических лиц.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:long">
 			<xs:maxInclusive value="99999999999"/>

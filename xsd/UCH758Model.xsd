@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
-<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
 	<xs:include schemaLocation="UCH758Ref.xsd"/>
 	<xs:include schemaLocation="UCH758Types.xsd"/>
 	<!--Данная схема содержит модель данных Кредитной Истории физического и юридического лиц, составленную по модели изложенной в Положении 758 ЦБ РФ.-->
@@ -9,7 +9,10 @@
 	<!--Глобальные типы реализовывают соответствующие Блоки документа 758. В их аннотациях присутствуют ссылки на документ-->
 	<!--Зачеркнутые элементы (maxOccurs=0) сейчас не используются, но приведены для сохранения структуры и улучшения видимости, а также проверок-->
 	<!--В схеме элементы расположены в порядке, в котором они встречаются в Положении-758 и пронумерованы в аннотациях соответствующими номерами-->
-	<!--Раздел 2. Показатели кредитной информации физического лица-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 2. Показатели кредитной информации физического лица</xs:documentation>
+	</xs:annotation>
 	<xs:element name="personCreditHistory">
 		<xs:annotation>
 			<xs:documentation>Кредитная история физического лица</xs:documentation>
@@ -1601,7 +1604,7 @@
 					<xs:element name="dealUid" type="uidType">
 						<xs:annotation>
 							<xs:documentation>УИд сделки</xs:documentation>
-					<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
+							<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="bureauNum" type="regNumType">
@@ -1766,7 +1769,7 @@
 	</xs:group>
 	<xs:group name="SourceInfo">
 		<xs:annotation>
-			<xs:documentation>Сведения об источнике формирования кредитной истории</xs:documentation>
+			<xs:documentation>Сведения об источнике формирования кредитной истории. infoDate и один из блоков 46, 47, 48 (orgSource, personSource, commissionerSource)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="infoDate" type="dateType" maxOccurs="unbounded">
@@ -1805,7 +1808,7 @@
 		<xs:complexContent>
 			<xs:extension base="OrgSourceCommonType">
 				<xs:sequence>
-					<xs:element name="creationDate">
+					<xs:element name="creationDate" type="dateType">
 						<xs:annotation>
 							<xs:documentation>Дата создания источника</xs:documentation>
 							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
@@ -1819,7 +1822,7 @@
 					</xs:element>
 					<xs:element name="bankruptcyEndDate" type="dateType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Дата окончания конкурсного производства </xs:documentation>
+							<xs:documentation>Дата окончания конкурсного производства</xs:documentation>
 							<xs:appinfo>Допустимые значения: позднее даты признания источника банкротом и не позднее даты формирования кредитной информации.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -2051,13 +2054,13 @@
 							<xs:documentation>Номер налогоплательщика</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="startDate">
+					<xs:element name="startDate" type="dateType">
 						<xs:annotation>
 							<xs:documentation>Дата начала действия договора обслуживания</xs:documentation>
 							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="endDate">
+					<xs:element name="endDate" type="dateType">
 						<xs:annotation>
 							<xs:documentation>Дата окончания действия договора обслуживания</xs:documentation>
 							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и позднее даты начала действия договора обслуживания.</xs:appinfo>
@@ -2520,7 +2523,10 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
-	<!--Раздел 3. Показатели кредитной информации юридического лица-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 3. Показатели кредитной информации юридического лица</xs:documentation>
+	</xs:annotation>
 	<xs:element name="orgCreditHistory">
 		<xs:annotation>
 			<xs:documentation>Кредитная история физического лица</xs:documentation>

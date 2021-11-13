@@ -1,72 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2022 (x64) (http://www.altova.com) by Alexandre Levine (Progmatic Lab) -->
-<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+<xs:schema xmlns="http://www.ucbreport.ru/2021/UCH" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="http://www.ucbreport.ru/2021/UCH" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
 	<xs:include schemaLocation="UCH758Model.xsd"/>
 	<!--Данная схема содержит модель загрузки записей Кредитной физического и юридического лиц, составленную по Положению-758 ЦБ РФ и описывает все релевантные сценарии загрузки, описанные в этом документе-->
 	<!--Схема импортирует схему с моделью данных по Положению-758, типы которого использованы в сценариях загрузки-->
 	<!--Записи (RecordType) приходят в пакете (package) и содержат события (event) абстрактного типа EventType, в который должны подставляться данные реальных типов PersonEventType и OrgEventType-->
 	<!--В схеме элементы расположены в порядке, в котором они встречаются в Положении-758 и пронумерованы в аннотациях соответствующими номерами-->
-	<!--Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации-->
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 1. Общие требования к формированию кредитной информации</xs:documentation>
+	</xs:annotation>
 	<xs:element name="package">
 		<xs:annotation>
 			<xs:documentation>Пакет данных</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="externalID">
+				<xs:element name="externalID" type="infoType">
 					<xs:annotation>
 						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями</xs:documentation>
 					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="100"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:element>
-				<xs:element name="prevExternalID" minOccurs="0">
+				<xs:element name="prevExternalID" type="infoType" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями с ранее не принятой кредитной информацией – для документа, содержащего кредитную информацию, которая ранее была не принята.
-
-Заполняется в случае корректировки</xs:documentation>
+						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями с ранее не принятой кредитной информацией – для документа, содержащего кредитную информацию, которая ранее была не принята. Заполняется в случае корректировки</xs:documentation>
 					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:maxLength value="100"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:element>
 				<xs:element name="createDate" type="dateType">
 					<xs:annotation>
 						<xs:documentation>Дата и время создания документа</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="totalRecords">
+				<xs:element name="totalRecords" type="countType">
 					<xs:annotation>
-						<xs:documentation>Количество записей в пакете для сверки</xs:documentation>
+						<xs:documentation>Количество групп блоков показателей в пакете</xs:documentation>
 					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:int">
-							<xs:maxInclusive value="999999999"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:element>
-				<xs:element name="totalSubjects">
+				<xs:element name="totalSubjects" type="countType">
 					<xs:annotation>
-						<xs:documentation>Количество субъектов в пакете для сверки (необязательный параметр)</xs:documentation>
+						<xs:documentation>Количество субъектов, сведения о которых указаны в пакете</xs:documentation>
 					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:int">
-							<xs:maxInclusive value="999999999"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:element>
-				<xs:element name="source">
+				<xs:element name="Source" type="SourceType">
 					<xs:annotation>
-						<xs:documentation>Сведения о партнере</xs:documentation>
+						<xs:documentation>Сведения об источнике</xs:documentation>
 					</xs:annotation>
-					<xs:complexType>
-						<xs:group ref="SourceInfo"/>
-					</xs:complexType>
 				</xs:element>
 				<xs:element name="record" type="RecordType" maxOccurs="unbounded">
 					<xs:annotation>
@@ -81,30 +59,20 @@
 			<xs:documentation>Запись в пакете</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="orderNum">
+			<xs:element name="orderNum" type="countType">
 				<xs:annotation>
 					<xs:documentation>Идентификатор записи по данным источника  (Порядковый номер записи в файле)</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:maxInclusive value="9999999999"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:element>
 			<xs:element name="eventDate" type="dateType">
 				<xs:annotation>
 					<xs:documentation>Дата события</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="operationType">
+			<xs:element name="operation" type="operationType">
 				<xs:annotation>
 					<xs:documentation>Тип операции</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:element>
 			<xs:element name="event" type="EventType">
 				<xs:annotation>
@@ -115,7 +83,7 @@
 	</xs:complexType>
 	<xs:complexType name="EventType" abstract="true">
 		<xs:annotation>
-			<xs:documentation>Событие Кредитной Истории (абстрактный базовый тип)</xs:documentation>
+			<xs:documentation>Событие Кредитной Истории. Для Физического Лица используется PersonEventType. Для Юридического Лица используется OrgEventType</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
 	<xs:complexType name="PersonEventType">
@@ -148,6 +116,24 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="SourceType">
+		<xs:annotation>
+			<xs:documentation>Сведения об источнике формирования кредитной истории. infoDate и один из блоков 46, 47, 48 (orgSource, personSource, commissionerSource)</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="SourceInfo"/>
+	</xs:complexType>
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
+	</xs:annotation>
+	<xs:element name="personEvents">
+		<xs:annotation>
+			<xs:documentation>События Кредитной Истории физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:group ref="PersonEvents"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:group name="PersonEvents">
 		<xs:annotation>
 			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
@@ -157,15 +143,10 @@
 				<xs:group ref="SubjectEvents"/>
 				<xs:group ref="DealEvents"/>
 			</xs:choice>
-			<xs:element name="subject">
+			<xs:element name="subject" type="SubjectType">
 				<xs:annotation>
 					<xs:documentation>Титульная часть КИ Субъекта, используется только для поиска Субъекта</xs:documentation>
 				</xs:annotation>
-				<xs:complexType>
-					<xs:sequence>
-						<xs:group ref="SubjectMain"/>
-					</xs:sequence>
-				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
@@ -1078,7 +1059,7 @@
 					<xs:documentation>Блок 22. Полная стоимость потребительского кредита (займа)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="accounting" minOccurs="0" maxOccurs="0">
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
 				</xs:annotation>
@@ -1172,6 +1153,18 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
+	<!---->
+	<xs:annotation>
+		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
+	</xs:annotation>
+	<xs:element name="orgEvents">
+		<xs:annotation>
+			<xs:documentation>События Кредитной Истории физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:group ref="OrgEvents"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:group name="OrgEvents">
 		<xs:annotation>
 			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
@@ -1181,15 +1174,10 @@
 				<xs:group ref="OrgSubjectEvents"/>
 				<xs:group ref="OrgDealEvents"/>
 			</xs:choice>
-			<xs:element name="subject">
+			<xs:element name="subject" type="SubjectType">
 				<xs:annotation>
 					<xs:documentation>Титульная часть КИ Субъекта, используется только для поиска Субъекта</xs:documentation>
 				</xs:annotation>
-				<xs:complexType>
-					<xs:sequence>
-						<xs:group ref="SubjectMain"/>
-					</xs:sequence>
-				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
@@ -1782,7 +1770,7 @@
 					<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="accounting" minOccurs="0" maxOccurs="0">
+			<xs:element name="accounting" type="AccountingType" minOccurs="0" maxOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
 				</xs:annotation>
@@ -1812,4 +1800,12 @@
 			<xs:group ref="DealFulfillmentMain"/>
 		</xs:sequence>
 	</xs:group>
+	<xs:complexType name="SubjectType">
+		<xs:annotation>
+			<xs:documentation>Титульная часть КИ Субъекта, используется только для поиска Субъекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubjectMain"/>
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>
