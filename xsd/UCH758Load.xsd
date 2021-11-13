@@ -41,7 +41,7 @@
 						<xs:documentation>Количество субъектов, сведения о которых указаны в пакете</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Source" type="SourceType">
+				<xs:element name="source" type="SourceType">
 					<xs:annotation>
 						<xs:documentation>Сведения об источнике</xs:documentation>
 					</xs:annotation>
@@ -122,7 +122,6 @@
 		</xs:annotation>
 		<xs:group ref="SourceInfo"/>
 	</xs:complexType>
-	<!---->
 	<xs:annotation>
 		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
 	</xs:annotation>
@@ -1153,7 +1152,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
-	<!---->
 	<xs:annotation>
 		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
 	</xs:annotation>

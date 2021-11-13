@@ -7,7 +7,7 @@
 	<!--В схеме есть глобальный элемент report абстрактного типа BaseReportType, который заменяется на унаследованные типы при заполнении-->
 	<!---->
 	<xs:annotation>
-		<xs:documentation>Отчеты</xs:documentation>
+		<xs:documentation>Отчеты о Кредитной Истории физического лица</xs:documentation>
 	</xs:annotation>
 	<xs:element name="report" type="BaseReportType">
 		<xs:annotation>
@@ -26,7 +26,7 @@
 		<xs:complexContent>
 			<xs:extension base="BaseReportType">
 				<xs:sequence>
-					<xs:group ref="CreditHistoryTitular"/>
+					<xs:group ref="PersonCreditHistoryTitular"/>
 					<xs:element name="partnerKind" type="partnerKindType" minOccurs="0" maxOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Тип партнера</xs:documentation>
@@ -177,6 +177,9 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>Отчеты о Кредитной Истории юридического лица</xs:documentation>
+	</xs:annotation>
 	<xs:complexType name="OrgReportType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Базовый тип отчета юридического лица (абстрактный)</xs:documentation>

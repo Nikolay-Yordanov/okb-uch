@@ -13,46 +13,44 @@
 	<xs:annotation>
 		<xs:documentation>Раздел 2. Показатели кредитной информации физического лица</xs:documentation>
 	</xs:annotation>
-	<xs:element name="personCreditHistory">
+	<xs:complexType name="PersonCreditHistoryType">
 		<xs:annotation>
 			<xs:documentation>Кредитная история физического лица</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:group ref="CreditHistoryTitular">
-					<xs:annotation>
-						<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="CreditHistoryMain">
-					<xs:annotation>
-						<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="CreditHistoryAdditional">
-					<xs:annotation>
-						<xs:documentation>2.3. Дополнительная (закрытая) часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="CreditHistoryInformational">
-					<xs:annotation>
-						<xs:documentation>2.4. Информационная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:group name="CreditHistory">
-		<xs:annotation>
-			<xs:documentation>2. Показатели кредитной информации физического лица</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref="CreditHistoryTitular">
+			<xs:group ref="PersonCreditHistoryTitular">
 				<xs:annotation>
 					<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="CreditHistoryMain">
+			<xs:group ref="PersonCreditHistoryMain">
+				<xs:annotation>
+					<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="CreditHistoryAdditional">
+				<xs:annotation>
+					<xs:documentation>2.3. Дополнительная (закрытая) часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="CreditHistoryInformational">
+				<xs:annotation>
+					<xs:documentation>2.4. Информационная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="PersonCreditHistory">
+		<xs:annotation>
+			<xs:documentation>2. Показатели кредитной информации физического лица</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="PersonCreditHistoryTitular">
+				<xs:annotation>
+					<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="PersonCreditHistoryMain">
 				<xs:annotation>
 					<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
 				</xs:annotation>
@@ -69,7 +67,7 @@
 			</xs:group>
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="CreditHistoryTitular">
+	<xs:group name="PersonCreditHistoryTitular">
 		<xs:annotation>
 			<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
 		</xs:annotation>
@@ -294,7 +292,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:group name="CreditHistoryMain">
+	<xs:group name="PersonCreditHistoryMain">
 		<xs:annotation>
 			<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
 		</xs:annotation>
@@ -2527,35 +2525,33 @@
 	<xs:annotation>
 		<xs:documentation>Раздел 3. Показатели кредитной информации юридического лица</xs:documentation>
 	</xs:annotation>
-	<xs:element name="orgCreditHistory">
+	<xs:complexType name="OrgCreditHistoryType">
 		<xs:annotation>
-			<xs:documentation>Кредитная история физического лица</xs:documentation>
+			<xs:documentation>Кредитная история юридического лица</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:group ref="OrgCreditHistoryTitular">
-					<xs:annotation>
-						<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="OrgCreditHistoryMain">
-					<xs:annotation>
-						<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="CreditHistoryAdditional">
-					<xs:annotation>
-						<xs:documentation>2.3. Дополнительная (закрытая) часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-				<xs:group ref="CreditHistoryInformational">
-					<xs:annotation>
-						<xs:documentation>2.4. Информационная часть кредитной истории</xs:documentation>
-					</xs:annotation>
-				</xs:group>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+		<xs:sequence>
+			<xs:group ref="OrgCreditHistoryTitular">
+				<xs:annotation>
+					<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="OrgCreditHistoryMain">
+				<xs:annotation>
+					<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="CreditHistoryAdditional">
+				<xs:annotation>
+					<xs:documentation>2.3. Дополнительная (закрытая) часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:group ref="CreditHistoryInformational">
+				<xs:annotation>
+					<xs:documentation>2.4. Информационная часть кредитной истории</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:group name="OrgCreditHistory">
 		<xs:annotation>
 			<xs:documentation>юр 2. Показатели кредитной информации физического лица</xs:documentation>
