@@ -1770,7 +1770,7 @@
 			<xs:documentation>Сведения об источнике формирования кредитной истории. infoDate и один из блоков 46, 47, 48 (orgSource, personSource, commissionerSource)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="infoDate" type="dateType" maxOccurs="unbounded">
+			<xs:element name="infoDate" type="dateType">
 				<xs:annotation>
 					<xs:documentation>Блок 46, 47, 48+ Дата формирования кредитной информации  (Отличие от Положения-758: Выделено из Блоков 46,47,48, потому что не является свойством Источника, а является свойством предоставленной информации, поэтому обрабатывается отдельно)</xs:documentation>
 					<xs:appinfo>Допустимые значения: не ранее даты обращения (при наличии) или не ранее даты совершения сделки (при наличии).</xs:appinfo>
@@ -1778,19 +1778,19 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:choice>
-				<xs:element name="orgSource" type="OrgSourceType" maxOccurs="unbounded">
+				<xs:element name="orgSource" type="OrgSourceType">
 					<xs:annotation>
 						<xs:documentation>Блок 46. (юр Блок 36) Сведения об источнике – юридическом лице</xs:documentation>
 						<xs:documentation>Сопутствующий</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="personSource" type="PersonSourceType" maxOccurs="unbounded">
+				<xs:element name="personSource" type="PersonSourceType">
 					<xs:annotation>
 						<xs:documentation>Блок 47. (юр Блок 37) Сведения об источнике – физическом лице</xs:documentation>
 						<xs:documentation>Сопутствующий</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="commissionerSource" type="CommissionerSourceType" maxOccurs="unbounded">
+				<xs:element name="commissionerSource" type="CommissionerSourceType">
 					<xs:annotation>
 						<xs:documentation>Блок 48. (юр Блок 38) Сведения об источнике – арбитражном управляющем</xs:documentation>
 						<xs:documentation>Сопутствующий</xs:documentation>

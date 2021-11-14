@@ -19,7 +19,7 @@
 			<xs:documentation>Базовый тип отчета (абстрактный)</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
-	<xs:complexType name="ReportType" abstract="true">
+	<xs:complexType name="PersonReportType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Базовый тип отчета физического лица (абстрактный)</xs:documentation>
 		</xs:annotation>
@@ -36,12 +36,12 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="StandardReportType">
+	<xs:complexType name="PersonStandardReportType">
 		<xs:annotation>
 			<xs:documentation>Стандартный отчет физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReportType">
+			<xs:extension base="PersonReportType">
 				<xs:sequence>
 					<xs:group ref="SubjectSpecial"/>
 					<xs:group ref="PersonDeal" minOccurs="0" maxOccurs="unbounded"/>
@@ -64,36 +64,36 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ExtendedReportType">
+	<xs:complexType name="PersonExtendedReportType">
 		<xs:annotation>
 			<xs:documentation>Расширенный отчет физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="StandardReportType">
+			<xs:extension base="PersonStandardReportType">
 				<xs:sequence>
 					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="InformationalReportType">
+	<xs:complexType name="PersonInformationalReportType">
 		<xs:annotation>
 			<xs:documentation>Информационный отчет физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReportType">
+			<xs:extension base="PersonReportType">
 				<xs:sequence>
 					<xs:group ref="CreditHistoryInformational" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="AvgPaymentsReportType">
+	<xs:complexType name="PersonAvgPaymentsReportType">
 		<xs:annotation>
 			<xs:documentation>Отчет о среднемесячных платежах</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReportType">
+			<xs:extension base="PersonReportType">
 				<xs:sequence>
 					<xs:element name="dealUid" type="DealUidType">
 						<xs:annotation>
@@ -114,28 +114,28 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="AvgPaymentsUcbReportType">
+	<xs:complexType name="PersonAvgPaymentsUcbReportType">
 		<xs:annotation>
 			<xs:documentation>Отчет о среднемесячных платежах (ОКБ)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="AvgPaymentsReportType"/>
+			<xs:extension base="PersonAvgPaymentsReportType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="StandardScoringReportType">
+	<xs:complexType name="PersonStandardScoringReportType">
 		<xs:annotation>
 			<xs:documentation>Стандатный отчет и скоринги физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="StandardReportType"/>
+			<xs:extension base="PersonStandardReportType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="RatingReportType">
+	<xs:complexType name="PersonRatingReportType">
 		<xs:annotation>
 			<xs:documentation>Отчет с индивидуальными рейтингами физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReportType">
+			<xs:extension base="PersonReportType">
 				<xs:sequence>
 					<xs:element name="Rating" type="RatingType">
 						<xs:annotation>
@@ -146,12 +146,12 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ScoringReportType">
+	<xs:complexType name="PersonScoringReportType">
 		<xs:annotation>
 			<xs:documentation>Отчет соо скорингами физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ReportType">
+			<xs:extension base="PersonReportType">
 				<xs:sequence>
 					<xs:element name="Score" type="ScoreType">
 						<xs:annotation>
@@ -162,12 +162,12 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="FullReportType">
+	<xs:complexType name="PersonFullReportType">
 		<xs:annotation>
 			<xs:documentation>Полный субъектный отчет физического лица</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ExtendedReportType">
+			<xs:extension base="PersonExtendedReportType">
 				<xs:sequence>
 					<xs:group ref="SourceInfo" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:group ref="CustomerInfo" minOccurs="0" maxOccurs="unbounded"/>

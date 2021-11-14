@@ -74,11 +74,23 @@
 					<xs:documentation>Тип операции</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="event" type="EventType">
-				<xs:annotation>
-					<xs:documentation>Событие Кредитной Истории. Для Физического Лица используется PersonEventType. Для Юридического Лица используется OrgEventType</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:choice>
+				<xs:element name="personEvent" type="PersonEventType">
+					<xs:annotation>
+						<xs:documentation>Событие Кредитной Истории физического лица</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="orgEvent" type="OrgEventType">
+					<xs:annotation>
+						<xs:documentation>Событие Кредитной Истории юридического лица</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="event" type="EventType">
+					<xs:annotation>
+						<xs:documentation>Событие Кредитной Истории. Используется для внутренних событий Бюро. Так же, можно использовать для передачи основных событий Для Физического Лица используется PersonEventType. Для Юридического Лица используется OrgEventType</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="EventType" abstract="true">
@@ -125,14 +137,6 @@
 	<xs:annotation>
 		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
 	</xs:annotation>
-	<xs:element name="personEvents">
-		<xs:annotation>
-			<xs:documentation>События Кредитной Истории физического лица</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:group ref="PersonEvents"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:group name="PersonEvents">
 		<xs:annotation>
 			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
@@ -1155,14 +1159,6 @@
 	<xs:annotation>
 		<xs:documentation>Раздел 5. События, вследствие которых формируется кредитная информация, и связанные с ними группы блоков показателей кредитной информации</xs:documentation>
 	</xs:annotation>
-	<xs:element name="orgEvents">
-		<xs:annotation>
-			<xs:documentation>События Кредитной Истории физического лица</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:group ref="OrgEvents"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:group name="OrgEvents">
 		<xs:annotation>
 			<xs:documentation>Группа всех событий загрузки информации</xs:documentation>
