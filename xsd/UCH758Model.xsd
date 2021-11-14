@@ -72,14 +72,14 @@
 			<xs:documentation>2.1. Титульная часть кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref="SubjectMain">
+			<xs:group ref="PersonMain">
 				<xs:annotation>
 					<xs:documentation>Основные сведения о субъекте кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="SubjectMain">
+	<xs:group name="PersonMain">
 		<xs:annotation>
 			<xs:documentation>Основные сведения о субъекте кредитной истории</xs:documentation>
 		</xs:annotation>
@@ -102,13 +102,13 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="id" type="PersonIdType" maxOccurs="unbounded">
+			<xs:element name="id" type="PersonIdType">
 				<xs:annotation>
 					<xs:documentation>Блок 4. Документ, удостоверяющий личность</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="prevId" type="PrevPersonIdType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="prevId" type="PrevPersonIdType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 5. Документ, ранее удостоверявший личность</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
@@ -340,7 +340,7 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="soleProprietor" type="SelfEmployType" minOccurs="0">
+			<xs:element name="soleProprietor" type="SoleProprietorType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 11. Государственная регистрация в качестве индивидуального предпринимателя</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
@@ -498,7 +498,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="SelfEmployType">
+	<xs:complexType name="SoleProprietorType">
 		<xs:annotation>
 			<xs:documentation>Блок 11. Государственная регистрация в качестве индивидуального предпринимателя</xs:documentation>
 		</xs:annotation>
@@ -2606,7 +2606,7 @@
 					<xs:documentation>Блок 2. Адрес юридического лица в пределах его места нахождения и контактная информация</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="regNumber" type="OrgRegNumberType">
+			<xs:element name="regNum" type="OrgRegNumType">
 				<xs:annotation>
 					<xs:documentation>Блок 3. Регистрационный номер</xs:documentation>
 				</xs:annotation>
@@ -2722,7 +2722,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="OrgRegNumberType">
+	<xs:complexType name="OrgRegNumType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 3. Регистрационный номер</xs:documentation>
 		</xs:annotation>
