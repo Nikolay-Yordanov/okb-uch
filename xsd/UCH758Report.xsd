@@ -9,14 +9,9 @@
 	<xs:annotation>
 		<xs:documentation>Отчеты о Кредитной Истории физического лица</xs:documentation>
 	</xs:annotation>
-	<xs:element name="report" type="BaseReportType">
+	<xs:complexType name="ReportType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Отчет</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:complexType name="BaseReportType" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Базовый тип отчета (абстрактный)</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
 	<xs:complexType name="PersonReportType" abstract="true">
@@ -24,7 +19,7 @@
 			<xs:documentation>Базовый тип отчета физического лица (абстрактный)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="BaseReportType">
+			<xs:extension base="ReportType">
 				<xs:sequence>
 					<xs:group ref="PersonCreditHistoryTitular"/>
 					<xs:element name="partnerKind" type="partnerKindType" minOccurs="0" maxOccurs="0">
@@ -185,7 +180,7 @@
 			<xs:documentation>Базовый тип отчета юридического лица (абстрактный)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="BaseReportType">
+			<xs:extension base="ReportType">
 				<xs:sequence>
 					<xs:group ref="OrgCreditHistoryTitular"/>
 					<xs:element name="partnerKind" type="partnerKindType" minOccurs="0" maxOccurs="0">

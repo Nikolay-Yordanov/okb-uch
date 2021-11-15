@@ -73,17 +73,12 @@ def write_sheet(title, schema, width, section, limit, *col_widths):
     init_worksheet(title, col_widths)
     write_row(schema.annotations[section].documentation[0].text, width=width, style='title')
     write_row("xml", "описание", "множ./или", "тип/формат", width=width, style='columns')
-    if schema.elements.get(title) != None:
-        root = schema.elements[title]
-        root_type = root.type
-    else:
-        root = schema.types[title]
-        root_type = root
+    root = schema.types[title]
     write_row(root.local_name, get_doc(root), width=width, style='root')
-    process_elem(root_type, 0, limit, width)
+    process_elem(root, 0, limit, width)
 
 init_workbook()
-write_sheet("package", "UCH758Load.xsd", 3, 0, 2, 32, 100, 10)
+write_sheet("PackageType", "UCH758Load.xsd", 3, 0, 2, 32, 100, 10)
 write_sheet("PersonEventType", "UCH758Load.xsd", 3, 1, 2, 32, 100, 10)
 write_sheet("OrgEventType", "UCH758Load.xsd", 3, 2, 2, 32, 100, 10)
 write_sheet("PersonCreditHistoryType", "UCH758Model.xsd", 4, 0, 5, 25, 40, 10, 80)

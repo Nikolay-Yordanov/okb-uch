@@ -10,50 +10,48 @@
 	<xs:annotation>
 		<xs:documentation>Раздел 1. Общие требования к формированию кредитной информации</xs:documentation>
 	</xs:annotation>
-	<xs:element name="package">
+	<xs:complexType name="PackageType">
 		<xs:annotation>
 			<xs:documentation>Пакет данных</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="externalID" type="infoType">
-					<xs:annotation>
-						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="prevExternalID" type="infoType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Исходящий регистрационный номер документа с кредитными историями с ранее не принятой кредитной информацией – для документа, содержащего кредитную информацию, которая ранее была не принята. Заполняется в случае корректировки</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="createDate" type="dateType">
-					<xs:annotation>
-						<xs:documentation>Дата и время создания документа</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="totalRecords" type="countType">
-					<xs:annotation>
-						<xs:documentation>Количество групп блоков показателей в пакете</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="totalSubjects" type="countType">
-					<xs:annotation>
-						<xs:documentation>Количество субъектов, сведения о которых указаны в пакете</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="source" type="SourceType">
-					<xs:annotation>
-						<xs:documentation>Сведения об источнике</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="record" type="RecordType" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Запись с событием Кредитной Истории</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+		<xs:sequence>
+			<xs:element name="externalID" type="infoType">
+				<xs:annotation>
+					<xs:documentation>Исходящий регистрационный номер документа с кредитными историями</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="prevExternalID" type="infoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Исходящий регистрационный номер документа с кредитными историями с ранее не принятой кредитной информацией – для документа, содержащего кредитную информацию, которая ранее была не принята. Заполняется в случае корректировки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="createDate" type="dateType">
+				<xs:annotation>
+					<xs:documentation>Дата и время создания документа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalRecords" type="countType">
+				<xs:annotation>
+					<xs:documentation>Количество групп блоков показателей в пакете</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalSubjects" type="countType">
+				<xs:annotation>
+					<xs:documentation>Количество субъектов, сведения о которых указаны в пакете</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="source" type="SourceType">
+				<xs:annotation>
+					<xs:documentation>Сведения об источнике</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="record" type="RecordType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Запись с событием Кредитной Истории</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="RecordType">
 		<xs:annotation>
 			<xs:documentation>Запись в пакете</xs:documentation>

@@ -27,5 +27,4 @@ def write_types(schema, go):
         f.write("}\n\n")
     f.close()
 
-write_types("UCH758Model.xsd", "uch_model.go")
-write_types("UCH758Load.xsd", "uch_load.go")
+write_types("UCH758Load.xsd", "uch_model.go")
