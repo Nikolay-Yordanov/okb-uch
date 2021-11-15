@@ -144,7 +144,7 @@
 					<xs:documentation>Имя</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="midName" type="nameType">
+			<xs:element name="midName" type="nameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Отчество</xs:documentation>
 				</xs:annotation>
@@ -909,7 +909,7 @@
 					<xs:documentation>Дата изменения договора</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="type" type="dealChangeType">
+			<xs:element name="changeType" type="dealChangeType">
 				<xs:annotation>
 					<xs:documentation>Код вида изменения договора</xs:documentation>
 				</xs:annotation>
@@ -1868,7 +1868,7 @@
 							<xs:documentation>Место рождения</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="orgName" type="nameType">
+					<xs:element name="orgName" type="nameType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Наименование саморегулируемой организации</xs:documentation>
 						</xs:annotation>
@@ -1884,18 +1884,18 @@
 							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="endDate" type="dateType">
+					<xs:element name="endDate" type="dateType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Дата прекращения полномочий арбитражного управляющего</xs:documentation>
 							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства, позднее даты начала полномочий арбитражного управляющего.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="taxCode" type="taxCodeType">
+					<xs:element name="taxCode" type="taxCodeType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Код номера налогоплательщика</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="taxNum" type="taxNumType">
+					<xs:element name="taxNum" type="taxNumType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Номер налогоплательщика</xs:documentation>
 						</xs:annotation>
