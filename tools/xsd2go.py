@@ -1,4 +1,3 @@
-from elementpath.datatypes import string
 import xmlschema as xsd
 
 def capitalize(str):
@@ -9,6 +8,7 @@ def write_types(schema, go):
     f = open(go, "w")
     f.write("package main\n\n")
     for type in schema.complex_types:
+        f.write("// " + type.annotation.documentation[0].text + "\n")
         f.write("type Xs" + type.local_name + " struct {\n")
         for elem in type.content.iter_elements():
             if elem.max_occurs == 0:
@@ -27,4 +27,4 @@ def write_types(schema, go):
         f.write("}\n\n")
     f.close()
 
-write_types("UCH758Load.xsd", "uch_model.go")
+write_types("UCH758Load.xsd", "uch.go")
