@@ -338,79 +338,95 @@
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="DealMade"/>
-			<xs:element name="amount" type="DealAmountType">
-				<xs:annotation>
-					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="paymentTerms" type="PaymentTermsType">
-				<xs:annotation>
-					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="DealMade"/>
+					<xs:element name="amount" type="DealAmountType">
+						<xs:annotation>
+							<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentTerms" type="PaymentTermsType">
+						<xs:annotation>
+							<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SourceNonMonetaryDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="DealMade"/>
-			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="DealMade"/>
+					<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="NonMonetaryDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="DealMade"/>
-			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="DealMade"/>
+					<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="LeasingDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="DealMade"/>
-			<xs:element name="amount" type="DealAmountType">
-				<xs:annotation>
-					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="paymentTerms" type="PaymentTermsType">
-				<xs:annotation>
-					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:group ref="DealFulfillmentMain"/>
-			<xs:element name="avgPayment" type="AvgPaymentType">
-				<xs:annotation>
-					<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="participation" type="ParticipationType">
-				<xs:annotation>
-					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="DealMade"/>
+					<xs:element name="amount" type="DealAmountType">
+						<xs:annotation>
+							<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentTerms" type="PaymentTermsType">
+						<xs:annotation>
+							<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:group ref="DealFulfillmentMain"/>
+					<xs:element name="avgPayment" type="AvgPaymentType">
+						<xs:annotation>
+							<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="participation" type="ParticipationType">
+						<xs:annotation>
+							<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="DebtClaimSubmittedType">
 		<xs:annotation>
@@ -1058,11 +1074,6 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:group ref="SubjectSpecialMain"/>
-			<xs:element name="dealUid" type="DealUidType">
-				<xs:annotation>
-					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="main" type="PersonDealMainType">
 				<xs:annotation>
 					<xs:documentation>Блок 18. Общие сведения о сделке</xs:documentation>
@@ -1352,74 +1363,90 @@
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для денежного обязательства субъекта</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="OrgDealMade"/>
-			<xs:element name="amount" type="DealAmountType">
-				<xs:annotation>
-					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="paymentTerms" type="PaymentTermsType">
-				<xs:annotation>
-					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="OrgDealMade"/>
+					<xs:element name="amount" type="DealAmountType">
+						<xs:annotation>
+							<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentTerms" type="PaymentTermsType">
+						<xs:annotation>
+							<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgSourceNonMonetaryDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства источника</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="OrgDealMade"/>
-			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="OrgDealMade"/>
+					<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgNonMonetaryDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4 Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу для неденежного обязательства субъекта  </xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="OrgDealMade"/>
-			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="OrgDealMade"/>
+					<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgLeasingDealMadeType">
 		<xs:annotation>
 			<xs:documentation>1.4.1 Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:group ref="OrgDealMade"/>
-			<xs:element name="amount" type="DealAmountType">
-				<xs:annotation>
-					<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="paymentTerms" type="PaymentTermsType">
-				<xs:annotation>
-					<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:group ref="DealFulfillmentMain"/>
-			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="participation" type="ParticipationType">
-				<xs:annotation>
-					<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="SubjectDealType">
+				<xs:sequence>
+					<xs:group ref="OrgDealMade"/>
+					<xs:element name="amount" type="DealAmountType">
+						<xs:annotation>
+							<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paymentTerms" type="PaymentTermsType">
+						<xs:annotation>
+							<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:group ref="DealFulfillmentMain"/>
+					<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
+						<xs:annotation>
+							<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="participation" type="ParticipationType">
+						<xs:annotation>
+							<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgDebtClaimSubmittedType">
 		<xs:annotation>
@@ -1770,11 +1797,6 @@
 			<xs:element name="prevOrg" type="PrevOrgType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>юр Блок 8. Сведения об основных частях кредитных историй юридического лица, от которого субъекту перешли права и обязанности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dealUid" type="DealUidType">
-				<xs:annotation>
-					<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="main" type="OrgDealMainType">
