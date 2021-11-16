@@ -297,7 +297,7 @@
 			<xs:documentation>2.2. Основная часть кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref="SubjectSpecial">
+			<xs:group ref="PersonSpecial">
 				<xs:annotation>
 					<xs:documentation>Специальные сведения о субъекте кредитной истории</xs:documentation>
 				</xs:annotation>
@@ -315,7 +315,7 @@
 			<xs:group ref="AccompanyingInfo" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="SubjectSpecial">
+	<xs:group name="PersonSpecial">
 		<xs:annotation>
 			<xs:documentation>Специальные сведения о субъекте кредитной истории</xs:documentation>
 		</xs:annotation>
