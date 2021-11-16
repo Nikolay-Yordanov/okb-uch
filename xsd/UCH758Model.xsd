@@ -90,7 +90,7 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="prevName" type="PrevPersonNameType" minOccurs="0">
+			<xs:element name="prevName" type="PrevPersonNameType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 2. Предыдущее имя</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -102,19 +102,19 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="id" type="PersonIdType">
+			<xs:element name="id" type="PersonIdType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 4. Документ, удостоверяющий личность</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="prevId" type="PrevPersonIdType" minOccurs="0">
+			<xs:element name="prevId" type="PrevPersonIdType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 5. Документ, ранее удостоверявший личность</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="tax" type="TaxType" minOccurs="0">
+			<xs:element name="tax" type="TaxType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 6. Номер налогоплательщика и регистрационный номер</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
@@ -302,17 +302,17 @@
 					<xs:documentation>Специальные сведения о субъекте кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="Obligation">
+			<xs:group ref="Obligation" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Сведения об обязательстве субъекта кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="CreditHistoryOther">
+			<xs:group ref="CreditHistoryOther" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Отдельные блоки основной части кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="AccompanyingInfo"/>
+			<xs:group ref="AccompanyingInfo" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="SubjectSpecial">
@@ -346,33 +346,33 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="legalCapacity" type="LegalCapacityType" minOccurs="0">
+			<xs:element name="legalCapacity" type="LegalCapacityType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 12. Сведения о дееспособности</xs:documentation>
 					<xs:documentation>Исторический
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="bankruptcy" type="BankruptcyType" minOccurs="0">
+			<xs:element name="bankruptcy" type="BankruptcyType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 13. (юр Блок 6) Сведения по делу о несостоятельности (банкротстве)</xs:documentation>
 					<xs:documentation>Исторический
 </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="fulfillment" type="FulfillmentType" minOccurs="0">
+			<xs:element name="fulfillment" type="FulfillmentType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 14. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="rating" type="RatingType" minOccurs="0">
+			<xs:element name="rating" type="RatingType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 15. Индивидуальный рейтинг субъекта</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="score" type="ScoreType" minOccurs="0">
+			<xs:element name="score" type="ScoreType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 16. (юр Блок 9) Кредитная оценка (скоринг)</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -743,7 +743,7 @@
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="change" type="DealChangeType" minOccurs="0">
+			<xs:element name="change" type="DealChangeType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
 					<xs:documentation>Исторический
@@ -983,13 +983,13 @@
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="payments" type="PaymentsType" minOccurs="0">
+			<xs:element name="payments" type="PaymentsType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 28. (юр Блок 20) Сведения о внесении платежей</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="montlyPayment" type="MonthlyPaymentType" minOccurs="0">
+			<xs:element name="montlyPayment" type="MonthlyPaymentType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -1265,13 +1265,13 @@
 					<xs:documentation>Блок 35. (юр Блок 26) Сведения о страховании предмета залога</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="settlement" type="SettlementType" minOccurs="0">
+			<xs:element name="settlement" type="SettlementType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 36. (юр Блок 27) Сведения о погашении требований кредитора по обязательству за счет обеспечения</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="repayment" type="RepaymentType" minOccurs="0">
+			<xs:element name="repayment" type="RepaymentType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 37. (юр Блок 28) Сведения о возмещении принципалом гаранту выплаченной суммы</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -1493,13 +1493,13 @@
 			<xs:documentation>Сведения о прекращении обязательства, о судебных спорах и требованиях по обязательству</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="termination" type="TerminationType" minOccurs="0">
+			<xs:element name="termination" type="TerminationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="lawsuit" type="LawsuitType" minOccurs="0">
+			<xs:element name="lawsuit" type="LawsuitType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 39. (юр Блок 30) Сведения о судебном споре или требовании по обязательству</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -1567,19 +1567,19 @@
 					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType">
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 41. (юр Блок 31) Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType">
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 42. (юр Блок 32) Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="collection" type="CollectionType" maxOccurs="unbounded">
+			<xs:element name="collection" type="CollectionType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
@@ -1709,9 +1709,10 @@
 			<xs:element name="customerRequest" type="CustomerRequestType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 44. (юр Блок 34) Сведения о запросе информации пользователем</xs:documentation>
+					<xs:documentation>Исторический</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0">
+			<xs:element name="stopInfo" type="StopInfoType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -1747,18 +1748,18 @@
 			<xs:documentation>2.3. Дополнительная (закрытая) часть кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref="SourceInfo"/>
-			<xs:group ref="CustomerInfo">
+			<xs:group ref="SourceInfo" maxOccurs="unbounded"/>
+			<xs:group ref="CustomerInfo" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Сведения о пользователе кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="AcquirerInfo">
+			<xs:group ref="AcquirerInfo" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Сведения о приобретателе прав кредитора и обслуживающей организации</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="AccountingInfo">
+			<xs:group ref="AccountingInfo" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Сведения об учете обязательства</xs:documentation>
 				</xs:annotation>
@@ -1914,7 +1915,7 @@
 			<xs:documentation>Сведения о пользователе кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element name="orgCustomer" type="OrgCustomerType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="orgCustomer" type="OrgCustomerType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 49. (юр Блок 39) Сведения о пользователе – юридическом лице</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -2108,7 +2109,7 @@
 			<xs:documentation>2.4. Информационная часть кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref="CreditHistoryParticipation">
+			<xs:group ref="CreditHistoryParticipation" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Сведения о предложении совершить сделку и об участии в обязательстве</xs:documentation>
 				</xs:annotation>
@@ -2120,19 +2121,19 @@
 			<xs:documentation>Сведения о предложении совершить сделку и об участии в обязательстве</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element name="application" type="ApplicationType" minOccurs="0">
+			<xs:element name="application" type="ApplicationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="participation" type="ParticipationType" minOccurs="0">
+			<xs:element name="participation" type="ParticipationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
 					<xs:documentation>Обновляемый</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="appReject" type="AppRejectType" minOccurs="0">
+			<xs:element name="appReject" type="AppRejectType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 57. (юр Блок 47) Сведения об отказе источника от предложения совершить сделку</xs:documentation>
 					<xs:documentation>Исторический</xs:documentation>
@@ -2616,7 +2617,7 @@
 					<xs:documentation>Блок 4. Номер налогоплательщика</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="orgChange" type="OrgChangeType">
+			<xs:element name="orgChange" type="OrgChangeType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 5. Сведения о смене наименования либо правопреемстве при реорганизации</xs:documentation>
 				</xs:annotation>
@@ -2804,12 +2805,12 @@
 					<xs:documentation>Специальные сведения о субъекте кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="OrgObligation">
+			<xs:group ref="OrgObligation" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Сведения об обязательстве субъекта кредитной истории</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="OrgHistoryOther">
+			<xs:group ref="OrgHistoryOther" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Отдельные блоки основной части кредитной истории</xs:documentation>
 				</xs:annotation>
@@ -2822,22 +2823,22 @@
 			<xs:documentation>Специальные сведения о субъекте кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="bankruptcy" type="BankruptcyType" minOccurs="0">
+			<xs:element name="bankruptcy" type="BankruptcyType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 6. Сведения по делу о несостоятельности (банкротстве)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="fulfillment" type="OrgFulfillmentType" minOccurs="0">
+			<xs:element name="fulfillment" type="OrgFulfillmentType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 7. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="prevOrg" type="PrevOrgType" minOccurs="0">
+			<xs:element name="prevOrg" type="PrevOrgType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 8. Сведения об основных частях кредитных историй юридического лица, от которого субъекту перешли права и обязанности</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="score" type="ScoreType" minOccurs="0">
+			<xs:element name="score" type="ScoreType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 9. Кредитная оценка (скоринг)</xs:documentation>
 				</xs:annotation>
@@ -2898,7 +2899,7 @@
 					<xs:documentation>Сведения об обеспечении исполнения обязательства</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="DealTermination">
+			<xs:group ref="DealTermination" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Сведения о прекращении обязательства, о судебных спорах и требованиях по обязательству</xs:documentation>
 				</xs:annotation>
@@ -2942,7 +2943,7 @@
 					<xs:documentation>Блок 21. Сведения об условиях платежей</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="change" type="DealChangeType">
+			<xs:element name="change" type="DealChangeType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 23. Сведения об изменении договора</xs:documentation>
 				</xs:annotation>
@@ -3013,22 +3014,22 @@
 					<xs:documentation>Блок 24. Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="arrear" type="ArrearType">
+			<xs:element name="arrear" type="ArrearType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 25. Сведения о задолженности</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dueArrear" type="DueArrearType">
+			<xs:element name="dueArrear" type="DueArrearType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 26. Сведения о срочной задолженности</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="pastdueArrear" type="PastdueArrearType">
+			<xs:element name="pastdueArrear" type="PastdueArrearType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 27. Сведения о просроченной задолженности</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="payments" type="PaymentsType">
+			<xs:element name="payments" type="PaymentsType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 28. Сведения о внесении платежей</xs:documentation>
 				</xs:annotation>
@@ -3050,32 +3051,32 @@
 			<xs:documentation>Сведения об обеспечении исполнения обязательства</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="collateral" type="CollateralType" minOccurs="0">
+			<xs:element name="collateral" type="CollateralType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 32. Сведения о залоге</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="guarantee" type="GuaranteeType" minOccurs="0">
+			<xs:element name="guarantee" type="GuaranteeType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 33. Сведения о поручительстве</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="indepGuarantee" type="IndepGuaranteeType" minOccurs="0">
+			<xs:element name="indepGuarantee" type="IndepGuaranteeType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 34. Сведения о независимой гарантии</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="collateralInsurance" type="CollateralInsuranceType" minOccurs="0">
+			<xs:element name="collateralInsurance" type="CollateralInsuranceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 35. Сведения о страховании предмета залога</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="settlement" type="SettlementType" minOccurs="0">
+			<xs:element name="settlement" type="SettlementType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 36. Сведения о погашении требований кредитора по обязательству за счет обеспечения</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="repayment" type="RepaymentType" minOccurs="0">
+			<xs:element name="repayment" type="RepaymentType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Блок 37. Сведения о возмещении принципалом гаранту выплаченной суммы</xs:documentation>
 				</xs:annotation>
@@ -3087,17 +3088,17 @@
 			<xs:documentation>Отдельные блоки основной части кредитной истории</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType">
+			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 41. Сведения об обязательстве, если в отношении источника открыто конкурсное производство</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType">
+			<xs:element name="sourceLiquidation" type="SourceTerminationBaseType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 42. Сведения об обязательстве, если источник находится в процессе ликвидации</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="collection" type="CollectionType">
+			<xs:element name="collection" type="CollectionType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Блок 43. Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
 				</xs:annotation>
