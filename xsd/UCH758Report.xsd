@@ -43,7 +43,7 @@
 		<xs:complexContent>
 			<xs:extension base="PersonReportType">
 				<xs:sequence>
-					<xs:group ref="SubjectSpecial"/>
+					<xs:group ref="PersonSpecial"/>
 					<xs:group ref="PersonDeal" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="avgPayment" type="AvgPaymentType">
 						<xs:annotation>
@@ -300,8 +300,8 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:group ref="OrgDealTerms"/>
-			<xs:group ref="OrgDealFulfillment" minOccurs="0"/>
-			<xs:group ref="OrgDealSecuring" minOccurs="0"/>
+			<xs:group ref="DealFulfillment" minOccurs="0"/>
+			<xs:group ref="DealSecuring" minOccurs="0"/>
 			<xs:group ref="DealTermination" minOccurs="0"/>
 			<xs:element name="sourceBankruptcy" type="SourceTerminationBaseType" minOccurs="0">
 				<xs:annotation>

@@ -133,23 +133,27 @@
 		<xs:annotation>
 			<xs:documentation>Блок 1. Имя</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="firstName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Фамилия</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Имя</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="midName" type="nameType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Отчество</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="firstName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Фамилия</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Имя</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="midName" type="nameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Отчество</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PrevPersonNameType">
 		<xs:annotation>
@@ -172,83 +176,91 @@
 		<xs:annotation>
 			<xs:documentation>Блок 3. Дата и место рождения</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="birthDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата рождения</xs:documentation>
-					<xs:appinfo>Допустимые значения: ранее даты формирования кредитной информации, но не ранее, чем дата формирования кредитной информации минус 150 лет.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="countryCode" type="countryCodeType">
-				<xs:annotation>
-					<xs:documentation>Код страны по ОКСМ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="birthPlace" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Место рождения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="birthDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата рождения</xs:documentation>
+							<xs:appinfo>Допустимые значения: ранее даты формирования кредитной информации, но не ранее, чем дата формирования кредитной информации минус 150 лет.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="countryCode" type="countryCodeType">
+						<xs:annotation>
+							<xs:documentation>Код страны по ОКСМ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="birthPlace" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Место рождения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PersonIdType">
 		<xs:annotation>
 			<xs:documentation>Блок 4. Документ, удостоверяющий личность; Блок 5. Документ, ранее удостоверявший личность</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="countryCode" type="countryCodeType">
-				<xs:annotation>
-					<xs:documentation>Код страны гражданства по ОКСМ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherCountry" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Наименование иной страны</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idCode" type="idType">
-				<xs:annotation>
-					<xs:documentation>Код документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherId" type="otherNameType">
-				<xs:annotation>
-					<xs:documentation>Наименование иного документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idSeries" type="seriesType">
-				<xs:annotation>
-					<xs:documentation>Серия документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idNum" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Номер документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="issueDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата выдачи документа</xs:documentation>
-					<xs:appinfo>Допустимые значения: в случае если по показателю «Код документа» в блоке показателей, содержащем настоящий показатель, указано «21», дата должна быть позднее или равна дате рождения плюс 13 лет и позднее даты выдачи предыдущего документа (при наличии).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="issuer" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Кем выдан документ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="deptCode" type="authorityCodeType">
-				<xs:annotation>
-					<xs:documentation>Код подразделения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата окончания срока действия документа</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты выдачи документа, указанной в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="countryCode" type="countryCodeType">
+						<xs:annotation>
+							<xs:documentation>Код страны гражданства по ОКСМ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherCountry" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Наименование иной страны</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idCode" type="idType">
+						<xs:annotation>
+							<xs:documentation>Код документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherId" type="otherNameType">
+						<xs:annotation>
+							<xs:documentation>Наименование иного документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idSeries" type="seriesType">
+						<xs:annotation>
+							<xs:documentation>Серия документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idNum" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Номер документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="issueDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата выдачи документа</xs:documentation>
+							<xs:appinfo>Допустимые значения: в случае если по показателю «Код документа» в блоке показателей, содержащем настоящий показатель, указано «21», дата должна быть позднее или равна дате рождения плюс 13 лет и позднее даты выдачи предыдущего документа (при наличии).</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="issuer" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Кем выдан документ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="deptCode" type="authorityCodeType">
+						<xs:annotation>
+							<xs:documentation>Код подразделения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата окончания срока действия документа</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты выдачи документа, указанной в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PrevPersonIdType">
 		<xs:annotation>
@@ -262,35 +274,43 @@
 		<xs:annotation>
 			<xs:documentation>Блок 6. (юр Блок 6) Номер налогоплательщика и регистрационный номер</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="taxCode" type="taxCodeType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Код номера налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="taxNum" type="taxNumType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Номер налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regNum" type="regNumType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="taxCode" type="taxCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код номера налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxNum" type="taxNumType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regNum" type="regNumType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SocialIdType">
 		<xs:annotation>
 			<xs:documentation>Блок 7. СНИЛС</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="id" type="socialIdType">
-				<xs:annotation>
-					<xs:documentation>СНИЛС</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="id" type="socialIdType">
+						<xs:annotation>
+							<xs:documentation>СНИЛС</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="PersonCreditHistoryMain">
 		<xs:annotation>
@@ -384,89 +404,93 @@
 		<xs:annotation>
 			<xs:documentation>Блок 8. Регистрация физического лица по месту жительства или пребывания</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="regAddrCode" type="addressRegType">
-				<xs:annotation>
-					<xs:documentation>Код адреса регистрации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="postal" type="postalType">
-				<xs:annotation>
-					<xs:documentation>Почтовый индекс</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="countryCode" type="countryCodeType">
-				<xs:annotation>
-					<xs:documentation>Код страны по ОКСМ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherCountry" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Наименование иной страны</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="addrNum" type="addressFiasType">
-				<xs:annotation>
-					<xs:documentation>Номер адреса в ФИАС</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="locationCode" type="ocatoType">
-				<xs:annotation>
-					<xs:documentation>Код населенного пункта по ОКАТО</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherLocation" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Иной населенный пункт</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="street" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Улица</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="house" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Дом</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="estate" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Владение</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="block" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Корпус</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="building" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Строение</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="apartment" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Квартира</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата регистрации</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regAuthority" type="orgNameType">
-				<xs:annotation>
-					<xs:documentation>Наименование регистрирующего органа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regAuthorityCode" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код подразделения, осуществившего регистрацию</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="regAddrCode" type="addressRegType">
+						<xs:annotation>
+							<xs:documentation>Код адреса регистрации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="postal" type="postalType">
+						<xs:annotation>
+							<xs:documentation>Почтовый индекс</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="countryCode" type="countryCodeType">
+						<xs:annotation>
+							<xs:documentation>Код страны по ОКСМ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherCountry" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Наименование иной страны</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="addrNum" type="addressFiasType">
+						<xs:annotation>
+							<xs:documentation>Номер адреса в ФИАС</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="locationCode" type="ocatoType">
+						<xs:annotation>
+							<xs:documentation>Код населенного пункта по ОКАТО</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherLocation" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Иной населенный пункт</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="street" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Улица</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="house" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Дом</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="estate" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Владение</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="block" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Корпус</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="building" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Строение</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="apartment" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Квартира</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата регистрации</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regAuthority" type="orgNameType">
+						<xs:annotation>
+							<xs:documentation>Наименование регистрирующего органа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regAuthorityCode" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код подразделения, осуществившего регистрацию</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="FactAddressType">
 		<xs:annotation>
@@ -480,190 +504,218 @@
 		<xs:annotation>
 			<xs:documentation>Блок 10. Контактные данные</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="phone" type="phoneType">
-				<xs:annotation>
-					<xs:documentation>Номер телефона</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="phoneComment" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Комментарий к номеру телефона</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="email" type="emailType">
-				<xs:annotation>
-					<xs:documentation>Адрес электронной почты</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="phone" type="phoneType">
+						<xs:annotation>
+							<xs:documentation>Номер телефона</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="phoneComment" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Комментарий к номеру телефона</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="email" type="emailType">
+						<xs:annotation>
+							<xs:documentation>Адрес электронной почты</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SoleProprietorType">
 		<xs:annotation>
 			<xs:documentation>Блок 11. Государственная регистрация в качестве индивидуального предпринимателя</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="regNum" type="regNumType">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата регистрации индивидуального предпринимателя</xs:documentation>
-					<xs:appinfo>Допустимые значения: дата должна быть позднее или равна дате рождения (показатель ФЛ_3.1) плюс 14 лет.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="regNum" type="regNumType">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата регистрации индивидуального предпринимателя</xs:documentation>
+							<xs:appinfo>Допустимые значения: дата должна быть позднее или равна дате рождения (показатель ФЛ_3.1) плюс 14 лет.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="LegalCapacityType">
 		<xs:annotation>
 			<xs:documentation>Блок 12. Сведения о дееспособности</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="capacity" type="capacityType">
-				<xs:annotation>
-					<xs:documentation>Код дееспособности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата вступления в силу решения суда о признании недееспособным или об ограничении дееспособности, а также о признании дееспособным или об отмене ограничения дееспособности</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="num" type="documentNumType">
-				<xs:annotation>
-					<xs:documentation>Номер решения суда</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="court" type="orgNameType">
-				<xs:annotation>
-					<xs:documentation>Наименование суда</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="capacity" type="capacityType">
+						<xs:annotation>
+							<xs:documentation>Код дееспособности</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата вступления в силу решения суда о признании недееспособным или об ограничении дееспособности, а также о признании дееспособным или об отмене ограничения дееспособности</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="num" type="documentNumType">
+						<xs:annotation>
+							<xs:documentation>Номер решения суда</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="court" type="orgNameType">
+						<xs:annotation>
+							<xs:documentation>Наименование суда</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="BankruptcyType">
 		<xs:annotation>
 			<xs:documentation>Блок 13. (юр Блок 6) Сведения по делу о несостоятельности (банкротстве)</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="stage" type="bankruptcyStageType">
-				<xs:annotation>
-					<xs:documentation>Код стадии рассмотрения дела</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата публикации в ЕФРСБ сведений о стадии рассмотрения дела</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="publishLink" type="urlType">
-				<xs:annotation>
-					<xs:documentation>Ссылка на публикацию в ЕФРСБ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="illegalActDate" type="dateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Дата публикации в ЕФРСБ сообщения о неправомерных действиях</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="fakeActDate" type="dateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Дата публикации в ЕФРСБ сообщения о неправомерных действиях</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="info" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Дополнительные сведения по делу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="stage" type="bankruptcyStageType">
+						<xs:annotation>
+							<xs:documentation>Код стадии рассмотрения дела</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата публикации в ЕФРСБ сведений о стадии рассмотрения дела</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="publishLink" type="urlType">
+						<xs:annotation>
+							<xs:documentation>Ссылка на публикацию в ЕФРСБ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="illegalActDate" type="dateType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дата публикации в ЕФРСБ сообщения о неправомерных действиях</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="fakeActDate" type="dateType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дата публикации в ЕФРСБ сообщения о неправомерных действиях</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="info" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Дополнительные сведения по делу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="FulfillmentType">
 		<xs:annotation>
 			<xs:documentation>Блок 14. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата завершения расчетов с кредиторами</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства, позднее даты начала реализации имущества гражданина и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="settleDate" type="dateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Дата освобождения от исполнения требований кредиторов</xs:documentation>
-					<xs:appinfo>Допустимые значения: дата должна быть позднее даты возникновения обязательства и позднее даты признания гражданина банкротом.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="resumeDate" type="dateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Дата восстановления обязательства</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата завершения расчетов с кредиторами</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства, позднее даты начала реализации имущества гражданина и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="settleDate" type="dateType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дата освобождения от исполнения требований кредиторов</xs:documentation>
+							<xs:appinfo>Допустимые значения: дата должна быть позднее даты возникновения обязательства и позднее даты признания гражданина банкротом.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="resumeDate" type="dateType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дата восстановления обязательства</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="RatingType">
 		<xs:annotation>
 			<xs:documentation>Блок 15. Индивидуальный рейтинг субъекта</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="rating" type="scoreType">
-				<xs:annotation>
-					<xs:documentation>Значение рейтинга</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета рейтинга</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="influenceFactor" type="ratingInfluenceType">
-				<xs:annotation>
-					<xs:documentation>Код фактора влияния на рейтинг</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="influence" type="influenceType">
-				<xs:annotation>
-					<xs:documentation>Доля влияния фактора</xs:documentation>
-					<xs:appinfo>Допустимые значения: для каждого значения по показателю ФЛ_15.3 должно быть указано отдельное значение по показателю ФЛ_15.4. Каждое отдельное значение по показателю ФЛ_15.4 должно быть больше 0 и меньше 100. Сумма значений по показателю ФЛ_15.4 должна быть не более 100.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="calcInabilityReason" type="ratingInabilityReasonType">
-				<xs:annotation>
-					<xs:documentation>Код причины невозможности расчета рейтинга</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherInabilityReasons" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Иные причины невозможности расчета рейтинга</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="rating" type="scoreType">
+						<xs:annotation>
+							<xs:documentation>Значение рейтинга</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета рейтинга</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="influenceFactor" type="ratingInfluenceType">
+						<xs:annotation>
+							<xs:documentation>Код фактора влияния на рейтинг</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="influence" type="influenceType">
+						<xs:annotation>
+							<xs:documentation>Доля влияния фактора</xs:documentation>
+							<xs:appinfo>Допустимые значения: для каждого значения по показателю ФЛ_15.3 должно быть указано отдельное значение по показателю ФЛ_15.4. Каждое отдельное значение по показателю ФЛ_15.4 должно быть больше 0 и меньше 100. Сумма значений по показателю ФЛ_15.4 должна быть не более 100.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="calcInabilityReason" type="ratingInabilityReasonType">
+						<xs:annotation>
+							<xs:documentation>Код причины невозможности расчета рейтинга</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherInabilityReasons" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Иные причины невозможности расчета рейтинга</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ScoreType">
 		<xs:annotation>
 			<xs:documentation>Блок 16. (юр Блок 9) Кредитная оценка (скоринг)</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="score" type="scoreType">
-				<xs:annotation>
-					<xs:documentation>Значение кредитной оценки</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета кредитной оценки</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="score" type="scoreType">
+						<xs:annotation>
+							<xs:documentation>Значение кредитной оценки</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета кредитной оценки</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="Obligation">
 		<xs:annotation>
@@ -710,9 +762,9 @@
 						<xs:documentation>Обновляемый</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="subjectRole" type="roleType">
+				<xs:element name="subjectRole" type="roleType" minOccurs="0" maxOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Блок 18+ Код вида участия в сделке (Отличие от Положения-758: Выделено из Блока 18, потому что не является свойством Договора, а является свойством Субъекта в сделке по Договору, поэтому обрабатывается отдельно)</xs:documentation>
+						<xs:documentation>Блок 18+ Код вида участия в сделке (Отличие от Положения-758: Выделено из Блока 18, потому что не является свойством Договора, а является свойством Субъекта в сделке по Договору, обрабатывается отдельно, поэтому здесь maxOcc=0)</xs:documentation>
 						<xs:documentation>Необновляемый</xs:documentation>
 					</xs:annotation>
 				</xs:element>
@@ -756,14 +808,18 @@
 		<xs:annotation>
 			<xs:documentation>Блок 17. (юр Блок 10) Уникальный идентификатор договора (сделки)</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="uid" type="uidType">
-				<xs:annotation>
-					<xs:documentation>УИд сделки</xs:documentation>
-					<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="uid" type="uidType">
+						<xs:annotation>
+							<xs:documentation>УИд сделки</xs:documentation>
+							<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PersonDealMainType">
 		<xs:annotation>
@@ -785,174 +841,194 @@
 		<xs:annotation>
 			<xs:documentation>Блок 19. (юр Блок 12) Сумма и валюта обязательства</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currency" type="currencyType">
-				<xs:annotation>
-					<xs:documentation>Валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="securedAmount" type="monetaryType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Сумма обеспечиваемого обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currency" type="currencyType">
+						<xs:annotation>
+							<xs:documentation>Валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="securedAmount" type="monetaryType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сумма обеспечиваемого обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="JointDebtorsType">
 		<xs:annotation>
 			<xs:documentation>Блок 20. (юр Блок 13) Сведения о солидарных должниках</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="number" type="jointDebtorsType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Число солидарных должников</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="number" type="jointDebtorsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Число солидарных должников</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PaymentTermsType">
 		<xs:annotation>
 			<xs:documentation>Блок 21. (юр Блок 14) Сведения об условиях платежей</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="principalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма ближайшего следующего платежа по основному долгу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="principalDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата ближайшего следующего платежа по основному долгу</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты, указанной в предыдущем значении настоящего показателя, а при его отсутствии – не ранее даты возникновения обязательства.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="interestAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма ближайшего следующего платежа по процентам</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="interestDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата ближайшего следующего платежа по процентам</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="frequency" type="payFrequencyType">
-				<xs:annotation>
-					<xs:documentation>Код частоты платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="minCardAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма минимального платежа по кредитной карте</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="graceStartDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата начала беспроцентного периода</xs:documentation>
-					<xs:documentation>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="graceEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата окончания беспроцентного периода</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="principalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма ближайшего следующего платежа по основному долгу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="principalDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата ближайшего следующего платежа по основному долгу</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты, указанной в предыдущем значении настоящего показателя, а при его отсутствии – не ранее даты возникновения обязательства.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="interestAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма ближайшего следующего платежа по процентам</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="interestDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата ближайшего следующего платежа по процентам</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="frequency" type="payFrequencyType">
+						<xs:annotation>
+							<xs:documentation>Код частоты платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="minCardAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма минимального платежа по кредитной карте</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="graceStartDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата начала беспроцентного периода</xs:documentation>
+							<xs:documentation>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="graceEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата окончания беспроцентного периода</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 не ранее даты возникновения обязательства;
 не ранее даты начала беспроцентного периода;
 не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="interestEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата окончания срока уплаты процентов</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и позднее даты начала беспроцентного периода (при его наличии).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="interestEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата окончания срока уплаты процентов</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и позднее даты начала беспроцентного периода (при его наличии).</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="TotalCostType">
 		<xs:annotation>
 			<xs:documentation>Блок 22. Полная стоимость потребительского кредита (займа)</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="percents" type="percentType">
-				<xs:annotation>
-					<xs:documentation>Полная стоимость кредита (займа) в процентах годовых</xs:documentation>
-					<xs:appinfo>Допустимые значения: значения показателей ФЛ_22.1 и ФЛ_22.2 должны быть одновременно больше 0 либо равны 0.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="money" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Полная стоимость кредита (займа) в денежном выражении</xs:documentation>
-					<xs:appinfo>Допустимые значения: значения показателей ФЛ_22.1 и ФЛ_22.2 должны быть одновременно больше 0 либо равны 0.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="calcDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета полной стоимости кредита (займа)</xs:documentation>
-					<xs:appinfo>Допустимые значения: не должна быть позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="percents" type="percentType">
+						<xs:annotation>
+							<xs:documentation>Полная стоимость кредита (займа) в процентах годовых</xs:documentation>
+							<xs:appinfo>Допустимые значения: значения показателей ФЛ_22.1 и ФЛ_22.2 должны быть одновременно больше 0 либо равны 0.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="money" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Полная стоимость кредита (займа) в денежном выражении</xs:documentation>
+							<xs:appinfo>Допустимые значения: значения показателей ФЛ_22.1 и ФЛ_22.2 должны быть одновременно больше 0 либо равны 0.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="calcDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета полной стоимости кредита (займа)</xs:documentation>
+							<xs:appinfo>Допустимые значения: не должна быть позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="DealChangeType">
 		<xs:annotation>
 			<xs:documentation>Блок 23. (юр Блок 15) Сведения об изменении договора</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата изменения договора</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="changeType" type="dealChangeType">
-				<xs:annotation>
-					<xs:documentation>Код вида изменения договора</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="subType" type="dealChangeOtherType">
-				<xs:annotation>
-					<xs:documentation>Код специального изменения договора</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherDescription" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Описание иного изменения договора</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="startDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата вступления изменения договора в силу</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата планового прекращения действия изменения договора</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты изменения договора и даты вступления изменения в силу и не позднее даты прекращения обязательства.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="factEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата фактического прекращения действия изменения договора</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты вступления изменения договора в силу, не позднее даты планового прекращения действия изменения договора в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endReason" type="dealChangeStopReasonType">
-				<xs:annotation>
-					<xs:documentation>Код причины прекращения действия изменения договора</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currencyRate" type="currencyRateType">
-				<xs:annotation>
-					<xs:documentation>Курс конверсии валюты долга</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата изменения договора</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="changeType" type="dealChangeType">
+						<xs:annotation>
+							<xs:documentation>Код вида изменения договора</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subType" type="dealChangeOtherType">
+						<xs:annotation>
+							<xs:documentation>Код специального изменения договора</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherDescription" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Описание иного изменения договора</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="startDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата вступления изменения договора в силу</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата планового прекращения действия изменения договора</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты изменения договора и даты вступления изменения в силу и не позднее даты прекращения обязательства.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="factEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата фактического прекращения действия изменения договора</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты вступления изменения договора в силу, не позднее даты планового прекращения действия изменения договора в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endReason" type="dealChangeStopReasonType">
+						<xs:annotation>
+							<xs:documentation>Код причины прекращения действия изменения договора</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currencyRate" type="currencyRateType">
+						<xs:annotation>
+							<xs:documentation>Курс конверсии валюты долга</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="DealFulfillment">
 		<xs:annotation>
@@ -1013,14 +1089,18 @@
 		<xs:annotation>
 			<xs:documentation>Блок 24. (юр Блок 16) Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ArrearType">
 		<xs:annotation>
@@ -1092,150 +1172,166 @@
 		<xs:annotation>
 			<xs:documentation>Блок 28. (юр Блок 20) Сведения о внесении платежей</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата последнего внесенного платежа</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата последнего внесенного платежа</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 для показателей ФЛ_41.6 и ЮЛ_31.6 – позднее даты открытия конкурсного производства в блоках показателей, содержащих настоящие показатели;
 для показателей ФЛ_42.6 и ЮЛ_32.6 – позднее даты начала ликвидации в блоках показателей, содержащих настоящие показатели;
 не позднее даты формирования кредитной информации (для всех показателей).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма последнего внесенного платежа</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение должно быть равно сумме значений показателей «Сумма последнего внесенного платежа по основному долгу», «Сумма последнего внесенного платежа по процентам» и «Сумма последнего внесенного платежа по иным требованиям» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastPrincipalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма последнего внесенного платежа по основному долгу</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastInterestAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма последнего внесенного платежа по процентам</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastOtherAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма последнего внесенного платежа по иным требованиям</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="totalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма всех внесенных платежей по обязательству</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение должно быть больше либо равно 0 и равно сумме значений показателей «Сумма внесенных платежей по основному долгу», «Сумма внесенных платежей по процентам» и «Сумма внесенных платежей по иным требованиям» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="totalPrincipalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма внесенных платежей по основному долгу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="totalInterestAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма внесенных платежей по процентам</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="totalOtherAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма внесенных платежей по иным требованиям</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="amountCompliance" type="amountComplianceType">
-				<xs:annotation>
-					<xs:documentation>Код соблюдения размера платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="scheduleCompliance" type="scheculeComplianceType">
-				<xs:annotation>
-					<xs:documentation>Код соблюдения срока внесения платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="pastduePeriod" type="pastdueType">
-				<xs:annotation>
-					<xs:documentation>Продолжительность просрочки</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма последнего внесенного платежа</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение должно быть равно сумме значений показателей «Сумма последнего внесенного платежа по основному долгу», «Сумма последнего внесенного платежа по процентам» и «Сумма последнего внесенного платежа по иным требованиям» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastPrincipalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма последнего внесенного платежа по основному долгу</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastInterestAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма последнего внесенного платежа по процентам</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastOtherAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма последнего внесенного платежа по иным требованиям</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение не должно превышать сумму последнего внесенного платежа.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма всех внесенных платежей по обязательству</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение должно быть больше либо равно 0 и равно сумме значений показателей «Сумма внесенных платежей по основному долгу», «Сумма внесенных платежей по процентам» и «Сумма внесенных платежей по иным требованиям» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalPrincipalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма внесенных платежей по основному долгу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalInterestAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма внесенных платежей по процентам</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalOtherAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма внесенных платежей по иным требованиям</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="amountCompliance" type="amountComplianceType">
+						<xs:annotation>
+							<xs:documentation>Код соблюдения размера платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="scheduleCompliance" type="scheculeComplianceType">
+						<xs:annotation>
+							<xs:documentation>Код соблюдения срока внесения платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="pastduePeriod" type="pastdueType">
+						<xs:annotation>
+							<xs:documentation>Продолжительность просрочки</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="MonthlyPaymentType">
 		<xs:annotation>
 			<xs:documentation>Блок 29. Величина среднемесячного платежа по договору займа (кредита) и дата ее расчета</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Величина среднемесячного платежа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета величины среднемесячного платежа</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Величина среднемесячного платежа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета величины среднемесячного платежа</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SourceNonMonetaryObligationType">
 		<xs:annotation>
 			<xs:documentation>Блок 30. (юр Блок 21) Сведения о неденежном обязательстве источника</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="asset" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Предмет обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assetKind" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код предоставляемого имущества</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="object" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Объект предоставления</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="transferDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата передачи имущества субъекту</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="asset" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Предмет обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="assetKind" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код предоставляемого имущества</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="object" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Объект предоставления</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="transferDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата передачи имущества субъекту</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SubjectNonMonetaryObligationType">
 		<xs:annotation>
 			<xs:documentation>Блок 31. (юр Блок 22) Сведения о неденежном обязательстве субъекта</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="asset" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Предмет обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="object" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Объект предоставления</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="terms" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Порядок исполнения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="complianceInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак ненадлежащего исполнения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="asset" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Предмет обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="object" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Объект предоставления</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="terms" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Порядок исполнения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="complianceInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак ненадлежащего исполнения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="DealSecuring">
 		<xs:annotation>
@@ -1284,109 +1380,117 @@
 			<xs:documentation>Блок 32. (юр Блок 23) Сведения о залоге</xs:documentation>
 			<xs:appinfo>Допустимые значения: не ранее даты заключения договора залога и не позднее даты формирования кредитной информации.</xs:appinfo>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="assetKind" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assetId" type="collateralIdType">
-				<xs:annotation>
-					<xs:documentation>Идентификационный код предмета залога</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты заключения договора залога и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="contractDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата заключения договора залога</xs:documentation>
-					<xs:appinfo>Длина, формат, допустимые символы и допустимые значения: в зависимости от вида предмета залога, код которого указан по показателю ФЛ_32.2 или ЮЛ_23.2.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assetValue" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Стоимость предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currency" type="currencyType">
-				<xs:annotation>
-					<xs:documentation>Валюта стоимости предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата проведения оценки предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="encumbranceInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак иного обременения предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата прекращения залога согласно договору</xs:documentation>
-					<xs:appinfo>Допустимые значения: дата должна позднее даты возникновения обязательства, позднее даты возникновения залога и не позднее даты формирования кредитной информации; при отсутствии в договоре срока прекращения залога указывается значение «31.12.9999».</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="factEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата фактического прекращения залога</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты заключения договора залога, не позднее даты прекращения залога согласно договору в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endReason" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код причины прекращения залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="assetKind" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код предмета залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="assetId" type="collateralIdType">
+						<xs:annotation>
+							<xs:documentation>Идентификационный код предмета залога</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты заключения договора залога и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="contractDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата заключения договора залога</xs:documentation>
+							<xs:appinfo>Длина, формат, допустимые символы и допустимые значения: в зависимости от вида предмета залога, код которого указан по показателю ФЛ_32.2 или ЮЛ_23.2.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="assetValue" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Стоимость предмета залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currency" type="currencyType">
+						<xs:annotation>
+							<xs:documentation>Валюта стоимости предмета залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="assessDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата проведения оценки предмета залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="encumbranceInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак иного обременения предмета залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата прекращения залога согласно договору</xs:documentation>
+							<xs:appinfo>Допустимые значения: дата должна позднее даты возникновения обязательства, позднее даты возникновения залога и не позднее даты формирования кредитной информации; при отсутствии в договоре срока прекращения залога указывается значение «31.12.9999».</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="factEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата фактического прекращения залога</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты заключения договора залога, не позднее даты прекращения залога согласно договору в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endReason" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код причины прекращения залога</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="GuaranteeType">
 		<xs:annotation>
 			<xs:documentation>Блок 33. (юр Блок 24) Сведения о поручительстве</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="contractUid" type="uidType">
-				<xs:annotation>
-					<xs:documentation>УИд договора поручительства или независимой гарантии</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Размер поручительства или независимой гарантии</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currency" type="currencyType">
-				<xs:annotation>
-					<xs:documentation>Валюта поручительства или независимой гарантии</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="startDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата заключения договора поручительства или выдачи независимой гарантии</xs:documentation>
-					<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата прекращения поручительства или независимой гарантии согласно договору</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="contractUid" type="uidType">
+						<xs:annotation>
+							<xs:documentation>УИд договора поручительства или независимой гарантии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Размер поручительства или независимой гарантии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currency" type="currencyType">
+						<xs:annotation>
+							<xs:documentation>Валюта поручительства или независимой гарантии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="startDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата заключения договора поручительства или выдачи независимой гарантии</xs:documentation>
+							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата прекращения поручительства или независимой гарантии согласно договору</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 для показателя ФЛ_34.6 – позднее даты выдачи гарантии (показатель ФЛ_34.5);
 для показателя ЮЛ_25.6 – позднее даты выдачи гарантии (показатель ЮЛ_25.5).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="factEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата фактического прекращения поручительства или независимой гарантии</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты выдачи гарантии или заключения договора залога, не позднее даты окончания гарантии или прекращения залога согласно условиям в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endReason" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код причины прекращения поручительства или независимой гарантии</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="factEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата фактического прекращения поручительства или независимой гарантии</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты выдачи гарантии или заключения договора залога, не позднее даты окончания гарантии или прекращения залога согласно условиям в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endReason" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код причины прекращения поручительства или независимой гарантии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="IndepGuaranteeType">
 		<xs:annotation>
@@ -1400,93 +1504,105 @@
 		<xs:annotation>
 			<xs:documentation>Блок 35. (юр Блок 26) Сведения о страховании предмета залога</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="limit" type="insuranceLimitType">
-				<xs:annotation>
-					<xs:documentation>Лимит страховых выплат</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currency" type="currencyType">
-				<xs:annotation>
-					<xs:documentation>Валюта страховых выплат</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="franchiseInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак наличия франшизы</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="startDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата начала действия страхования</xs:documentation>
-					<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата окончания действия страхования согласно договору</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и позднее даты начала действия страхования согласно договору.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="factEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата фактического прекращения страхования</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты начала действия страхования, не позднее даты окончания действия страхования согласно договору в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endReason" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код причины прекращения страхования</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="limit" type="insuranceLimitType">
+						<xs:annotation>
+							<xs:documentation>Лимит страховых выплат</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currency" type="currencyType">
+						<xs:annotation>
+							<xs:documentation>Валюта страховых выплат</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="franchiseInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак наличия франшизы</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="startDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата начала действия страхования</xs:documentation>
+							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата окончания действия страхования согласно договору</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и позднее даты начала действия страхования согласно договору.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="factEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата фактического прекращения страхования</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты начала действия страхования, не позднее даты окончания действия страхования согласно договору в блоке показателей, содержащем настоящий показатель, и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endReason" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код причины прекращения страхования</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SettlementType">
 		<xs:annotation>
 			<xs:documentation>Блок 36. (юр Блок 27) Сведения о погашении требований кредитора по обязательству за счет обеспечения</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="securingType" type="securingType">
-				<xs:annotation>
-					<xs:documentation>Код использованного обеспечения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата погашения требований за счет обеспечения</xs:documentation>
-					<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма требований, погашенных за счет обеспечения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="securingType" type="securingType">
+						<xs:annotation>
+							<xs:documentation>Код использованного обеспечения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата погашения требований за счет обеспечения</xs:documentation>
+							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма требований, погашенных за счет обеспечения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="RepaymentType">
 		<xs:annotation>
 			<xs:documentation>Блок 37. (юр Блок 28) Сведения о возмещении принципалом гаранту выплаченной суммы</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="dueAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии».</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="paidAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма, выплаченная принципалом</xs:documentation>
-					<xs:appinfo>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="complianceInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак соблюдения порядка возмещения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="dueAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии».</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="paidAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма, выплаченная принципалом</xs:documentation>
+							<xs:appinfo>Допустимые значения: значение должно быть больше или равно 0 и не больше значения показателя «Сумма независимой гарантии» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="complianceInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак соблюдения порядка возмещения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="DealTermination">
 		<xs:annotation>
@@ -1511,50 +1627,58 @@
 		<xs:annotation>
 			<xs:documentation>Блок 38. (юр Блок 29) Сведения о прекращении обязательства</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="reason" type="dealStopReasonType">
-				<xs:annotation>
-					<xs:documentation>Код основания прекращения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата фактического прекращения обязательства</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="reason" type="dealStopReasonType">
+						<xs:annotation>
+							<xs:documentation>Код основания прекращения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата фактического прекращения обязательства</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="LawsuitType">
 		<xs:annotation>
 			<xs:documentation>Блок 39. (юр Блок 30) Сведения о судебном споре или требовании по обязательству</xs:documentation>
 		</xs:annotation>
-		<xs:sequence minOccurs="0">
-			<xs:annotation>
-				<xs:documentation>Признак наличия судебного акта</xs:documentation>
-			</xs:annotation>
-			<xs:element name="actDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата принятия судебного акта</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="actNum" type="documentNumType">
-				<xs:annotation>
-					<xs:documentation>Номер судебного акта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="actResolution" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Резолютивная часть судебного акта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="effectiveInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак вступления акта в законную силу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Признак наличия судебного акта</xs:documentation>
+					</xs:annotation>
+					<xs:element name="actDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата принятия судебного акта</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actNum" type="documentNumType">
+						<xs:annotation>
+							<xs:documentation>Номер судебного акта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actResolution" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Резолютивная часть судебного акта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="effectiveInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак вступления акта в законную силу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="CreditHistoryOther">
 		<xs:annotation>
@@ -1634,72 +1758,76 @@
 		<xs:annotation>
 			<xs:documentation>Блок 43. (юр Блок 33) Сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="debtType" type="debtClaimType">
-				<xs:annotation>
-					<xs:documentation>Код взыскиваемого долга</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="court" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Наименование суда</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="actNum" type="documentNumType">
-				<xs:annotation>
-					<xs:documentation>Номер судебного акта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="actDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата принятия судебного акта</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="actResolution" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Резолютивная часть судебного акта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="execNum" type="documentNumType">
-				<xs:annotation>
-					<xs:documentation>Номер исполнительного документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="collectEndDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата прекращения взыскания</xs:documentation>
-					<xs:documentation/>
-					<xs:appinfo>Допустимые значения: позднее даты принятия судебного акта о взыскании и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="collectOnceAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма единовременного взыскания</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="collectTotalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Взысканная сумма</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="calcDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="collectAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма периодического взыскания</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="frequency" type="payFrequencyType">
-				<xs:annotation>
-					<xs:documentation>Код частоты платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="debtType" type="debtClaimType">
+						<xs:annotation>
+							<xs:documentation>Код взыскиваемого долга</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="court" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Наименование суда</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actNum" type="documentNumType">
+						<xs:annotation>
+							<xs:documentation>Номер судебного акта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата принятия судебного акта</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="actResolution" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Резолютивная часть судебного акта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="execNum" type="documentNumType">
+						<xs:annotation>
+							<xs:documentation>Номер исполнительного документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="collectEndDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата прекращения взыскания</xs:documentation>
+							<xs:documentation/>
+							<xs:appinfo>Допустимые значения: позднее даты принятия судебного акта о взыскании и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="collectOnceAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма единовременного взыскания</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="collectTotalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Взысканная сумма</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="calcDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="collectAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма периодического взыскания</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="frequency" type="payFrequencyType">
+						<xs:annotation>
+							<xs:documentation>Код частоты платежей</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="AccompanyingInfo">
 		<xs:annotation>
@@ -1724,24 +1852,32 @@
 		<xs:annotation>
 			<xs:documentation>Блок 44. (юр Блок 34) Сведения о запросе информации пользователем</xs:documentation>
 		</xs:annotation>
-		<xs:group ref="CustomerRequest"/>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:group ref="CustomerRequest"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="StopInfoType">
 		<xs:annotation>
 			<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="reason" type="infoStopType">
-				<xs:annotation>
-					<xs:documentation>Код причины прекращения передачи информации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата прекращения передачи информации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="reason" type="infoStopType">
+						<xs:annotation>
+							<xs:documentation>Код причины прекращения передачи информации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата прекращения передачи информации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="CreditHistoryAdditional">
 		<xs:annotation>
@@ -2096,13 +2232,17 @@
 		<xs:annotation>
 			<xs:documentation>Блок 54. (юр Блок 44) Сведения об учете обязательства</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="accountingInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак учета обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="accountingInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак учета обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="CreditHistoryInformational">
 		<xs:annotation>
@@ -2145,335 +2285,363 @@
 		<xs:annotation>
 			<xs:documentation>Блок 55. (юр Блок 45) Сведения об обращении субъекта к источнику с предложением совершить сделку</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="subjectRole" type="roleType">
-				<xs:annotation>
-					<xs:documentation>Код вида участия в сделке</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма запрошенного займа (кредита), лизинга или обеспечения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="currency" type="currencyType">
-				<xs:annotation>
-					<xs:documentation>Запрошенная валюта обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="uid" type="uidType">
-				<xs:annotation>
-					<xs:documentation>УИд обращения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата обращения</xs:documentation>
-					<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sourceKind" type="sourceType">
-				<xs:annotation>
-					<xs:documentation>Код источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="submitKind" type="submissionType">
-				<xs:annotation>
-					<xs:documentation>Код способа обращения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="expireDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата окончания действия одобрения обращения (оферты кредитора)</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты обращения; для бессрочной оферты указывается значение «31.12.9999».</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="subjectRole" type="roleType">
+						<xs:annotation>
+							<xs:documentation>Код вида участия в сделке</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма запрошенного займа (кредита), лизинга или обеспечения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="currency" type="currencyType">
+						<xs:annotation>
+							<xs:documentation>Запрошенная валюта обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="uid" type="uidType">
+						<xs:annotation>
+							<xs:documentation>УИд обращения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата обращения</xs:documentation>
+							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sourceKind" type="sourceType">
+						<xs:annotation>
+							<xs:documentation>Код источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="submitKind" type="submissionType">
+						<xs:annotation>
+							<xs:documentation>Код способа обращения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="expireDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата окончания действия одобрения обращения (оферты кредитора)</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты обращения; для бессрочной оферты указывается значение «31.12.9999».</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ParticipationType">
 		<xs:annotation>
 			<xs:documentation>Блок 56. (юр Блок 46) Сведения об участии в обязательстве, по которому формируется кредитная история</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="subjectRole" type="roleType">
-				<xs:annotation>
-					<xs:documentation>Код вида участия в сделке</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="loanKind" type="loanType">
-				<xs:annotation>
-					<xs:documentation>Код вида займа (кредита)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dealUid" type="uidType">
-				<xs:annotation>
-					<xs:documentation>УИд сделки</xs:documentation>
-					<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="transferDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="defaultInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак просрочки должника более 90 дней</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="stopInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак прекращения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="subjectRole" type="roleType">
+						<xs:annotation>
+							<xs:documentation>Код вида участия в сделке</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="loanKind" type="loanType">
+						<xs:annotation>
+							<xs:documentation>Код вида займа (кредита)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dealUid" type="uidType">
+						<xs:annotation>
+							<xs:documentation>УИд сделки</xs:documentation>
+							<xs:appinfo>Допустимые значения: 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «а», «b», «с», «d», «е» или «f»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к настоящему Положению.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="transferDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="defaultInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак просрочки должника более 90 дней</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="stopInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак прекращения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="AppRejectType">
 		<xs:annotation>
 			<xs:documentation>Блок 57. (юр Блок 47) Сведения об отказе источника от предложения совершить сделку</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата отказа</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата отказа</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 для показателя ФЛ_57.1 – не ранее даты обращения (показатель ФЛ_55.5) и не позднее даты формирования кредитной информации;
 для показателя ЮЛ_47.1 – не ранее даты обращения (показатель ЮЛ_45.5) и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="reason" type="rejectType">
-				<xs:annotation>
-					<xs:documentation>Код причины отказа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="reason" type="rejectType">
+						<xs:annotation>
+							<xs:documentation>Код причины отказа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ArrearBaseType">
 		<xs:annotation>
 			<xs:documentation>Базовый тип для задолженностей</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="amount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="amount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 должно быть больше либо равно 0 и равно сумме значений показателей «Сумма задолженности по основному долгу», «Сумма задолженности по процентам» и Сумма задолженности по иным требованиям» в блоке показателей, содержащем настоящий показатель.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastPaymentInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак расчета по последнему платежу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="principalAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности по основному долгу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="interestAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности по процентам</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherAmount" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности по иным требованиям</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата расчета</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastPaymentInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак расчета по последнему платежу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="principalAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности по основному долгу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="interestAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности по процентам</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherAmount" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности по иным требованиям</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата расчета</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SourceTerminationBaseType">
 		<xs:annotation>
 			<xs:documentation>Базовый тип для банкротства и ликвидации источника</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="startOutstanding" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности на дату открытия конкурсного производства или ликвидации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="startDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата открытия конкурсного производства или ликвидации</xs:documentation>
-					<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endOutstanding" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности на дату завершения конкурсного производства или утверждения ликвидационного баланса</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата завершения конкурсного производства или утверждения ликвидационного баланса</xs:documentation>
-					<xs:appinfo>для показателя ФЛ_41.4 – позднее даты открытия конкурсного производства (показатель ФЛ_41.2) и не позднее даты формирования кредитной информации;
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="startOutstanding" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности на дату открытия конкурсного производства или ликвидации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="startDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата открытия конкурсного производства или ликвидации</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты возникновения обязательства и не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endOutstanding" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности на дату завершения конкурсного производства или утверждения ликвидационного баланса</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата завершения конкурсного производства или утверждения ликвидационного баланса</xs:documentation>
+							<xs:appinfo>для показателя ФЛ_41.4 – позднее даты открытия конкурсного производства (показатель ФЛ_41.2) и не позднее даты формирования кредитной информации;
 для показателя ЮЛ_31.4 – позднее даты открытия конкурсного производства (показатель ЮЛ_31.2) и не позднее даты формирования кредитной информации.
 для показателей ФЛ_42.4 и ЮЛ_32.4 - позднее даты возникновения обязательства и не позднее даты формирования кредитной информации</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastPayOutstanding" type="monetaryType">
-				<xs:annotation>
-					<xs:documentation>Сумма задолженности на дату последнего внесенного платежа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastPayDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата последнего внесенного платежа</xs:documentation>
-					<xs:appinfo>Допустимые значения:
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastPayOutstanding" type="monetaryType">
+						<xs:annotation>
+							<xs:documentation>Сумма задолженности на дату последнего внесенного платежа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastPayDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата последнего внесенного платежа</xs:documentation>
+							<xs:appinfo>Допустимые значения:
 для показателей ФЛ_41.6 и ЮЛ_31.6 – позднее даты открытия конкурсного производства в блоках показателей, содержащих настоящие показатели;
 для показателей ФЛ_42.6 и ЮЛ_32.6 – позднее даты начала ликвидации в блоках показателей, содержащих настоящие показатели;
 не позднее даты формирования кредитной информации (для всех показателей).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ownerChangeInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак перехода прав кредитора к другому лицу</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="obligationEndInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак прекращения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="obligationEndReason" type="dealStopReasonType">
-				<xs:annotation>
-					<xs:documentation>Код основания прекращения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ownerChangeInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак перехода прав кредитора к другому лицу</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="obligationEndInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак прекращения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="obligationEndReason" type="dealStopReasonType">
+						<xs:annotation>
+							<xs:documentation>Код основания прекращения обязательства</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PersonSourceCommonType">
 		<xs:annotation>
 			<xs:documentation>Базовый общий блок для источника - физического лица</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="midName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Отчество</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="firstName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Фамилия</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Имя</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="birthDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата рождения</xs:documentation>
-					<xs:appinfo>Допустимые значения: ранее даты формирования кредитной информации, но не ранее, чем дата формирования кредитной информации минус 150 лет.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="birthPlace" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Место рождения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regNum" type="regNumType">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idCode" type="idType">
-				<xs:annotation>
-					<xs:documentation>Код документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherId" type="otherNameType">
-				<xs:annotation>
-					<xs:documentation>Наименование иного документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idSeries" type="seriesType">
-				<xs:annotation>
-					<xs:documentation>Серия документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="idNum" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Номер документа</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="issueDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата выдачи документа</xs:documentation>
-					<xs:appinfo>Допустимые значения: в случае если по показателю «Код документа» в блоке показателей, содержащем настоящий показатель, указано «21», дата должна быть позднее или равна дате рождения плюс 13 лет и позднее даты выдачи предыдущего документа (при наличии).</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="issuer" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Кем выдан документ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="deptCode" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код подразделения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="midName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Отчество</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="firstName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Фамилия</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lastName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Имя</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="birthDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата рождения</xs:documentation>
+							<xs:appinfo>Допустимые значения: ранее даты формирования кредитной информации, но не ранее, чем дата формирования кредитной информации минус 150 лет.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="birthPlace" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Место рождения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regNum" type="regNumType">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idCode" type="idType">
+						<xs:annotation>
+							<xs:documentation>Код документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherId" type="otherNameType">
+						<xs:annotation>
+							<xs:documentation>Наименование иного документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idSeries" type="seriesType">
+						<xs:annotation>
+							<xs:documentation>Серия документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idNum" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Номер документа</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="issueDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата выдачи документа</xs:documentation>
+							<xs:appinfo>Допустимые значения: в случае если по показателю «Код документа» в блоке показателей, содержащем настоящий показатель, указано «21», дата должна быть позднее или равна дате рождения плюс 13 лет и позднее даты выдачи предыдущего документа (при наличии).</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="issuer" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Кем выдан документ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="deptCode" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код подразделения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgSourceCommonType">
 		<xs:annotation>
 			<xs:documentation>Базовый общий блок для источника - юридического лица</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="fullName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Полное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="shortName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Сокращенное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Иное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sourceCode" type="codeType">
-				<xs:annotation>
-					<xs:documentation>Код источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="rusRegInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак регистрации в Российской Федерации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lei" type="leiType">
-				<xs:annotation>
-					<xs:documentation>Идентификатор LEI</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regNum" type="regNumType">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="taxCode" type="taxCodeType">
-				<xs:annotation>
-					<xs:documentation>Код номера налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="taxNum" type="taxNumType">
-				<xs:annotation>
-					<xs:documentation>Номер налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="fullName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Полное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Сокращенное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Иное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sourceCode" type="codeType">
+						<xs:annotation>
+							<xs:documentation>Код источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="rusRegInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак регистрации в Российской Федерации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lei" type="leiType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор LEI</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regNum" type="regNumType">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxCode" type="taxCodeType">
+						<xs:annotation>
+							<xs:documentation>Код номера налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxNum" type="taxNumType">
+						<xs:annotation>
+							<xs:documentation>Номер налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="CustomerRequest">
 		<xs:annotation>
@@ -2485,7 +2653,7 @@
 					<xs:documentation>Код запрошенных сведений</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="infoDate" type="dateType">
+			<xs:element name="resultDate" type="dateType">
 				<xs:annotation>
 					<xs:documentation>Дата предоставления сведений</xs:documentation>
 					<xs:appinfo>Допустимые значения:
@@ -2628,172 +2796,192 @@
 		<xs:annotation>
 			<xs:documentation>юр Блок 1. Наименование юридического лица</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="fullName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Полное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="shortName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Сокращенное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherName" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Иное наименование</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="fullName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Полное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Сокращенное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherName" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Иное наименование</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgAddressType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 2. Адрес юридического лица в пределах его места нахождения и контактная информация</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="countryCode" type="countryCodeType">
-				<xs:annotation>
-					<xs:documentation>Код страны по ОКСМ</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherCountry" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Наименование иной страны</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="addrNum" type="addressFiasType">
-				<xs:annotation>
-					<xs:documentation>Номер адреса в ФИАС</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="locationCode" type="ocatoType">
-				<xs:annotation>
-					<xs:documentation>Код населенного пункта по ОКАТО</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherLocation" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Иной населенный пункт</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="street" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Улица</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="house" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Дом</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="estate" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Владение</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="block" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Корпус</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="building" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Строение</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="office" type="buildingType">
-				<xs:annotation>
-					<xs:documentation>Помещение (офис)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="phone" type="phoneType">
-				<xs:annotation>
-					<xs:documentation>Номер телефона</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="phoneComment" type="infoType">
-				<xs:annotation>
-					<xs:documentation>Комментарий к номеру телефона</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="email" type="emailType">
-				<xs:annotation>
-					<xs:documentation>Адрес электронной почты</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="countryCode" type="countryCodeType">
+						<xs:annotation>
+							<xs:documentation>Код страны по ОКСМ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherCountry" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Наименование иной страны</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="addrNum" type="addressFiasType">
+						<xs:annotation>
+							<xs:documentation>Номер адреса в ФИАС</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="locationCode" type="ocatoType">
+						<xs:annotation>
+							<xs:documentation>Код населенного пункта по ОКАТО</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="otherLocation" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Иной населенный пункт</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="street" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Улица</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="house" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Дом</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="estate" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Владение</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="block" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Корпус</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="building" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Строение</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="office" type="buildingType">
+						<xs:annotation>
+							<xs:documentation>Помещение (офис)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="phone" type="phoneType">
+						<xs:annotation>
+							<xs:documentation>Номер телефона</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="phoneComment" type="infoType">
+						<xs:annotation>
+							<xs:documentation>Комментарий к номеру телефона</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="email" type="emailType">
+						<xs:annotation>
+							<xs:documentation>Адрес электронной почты</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgRegNumType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 3. Регистрационный номер</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="num" type="regNumType">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lei" type="leiType">
-				<xs:annotation>
-					<xs:documentation>Идентификатор LEI</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="num" type="regNumType">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="lei" type="leiType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор LEI</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgTaxType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 4. Номер налогоплательщика</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="taxCode" type="taxCodeType">
-				<xs:annotation>
-					<xs:documentation>Код номера налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="taxNum" type="taxNumType">
-				<xs:annotation>
-					<xs:documentation>Номер налогоплательщика</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="taxCode" type="taxCodeType">
+						<xs:annotation>
+							<xs:documentation>Код номера налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="taxNum" type="taxNumType">
+						<xs:annotation>
+							<xs:documentation>Номер налогоплательщика</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="OrgChangeType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 5. Сведения о смене наименования либо правопреемстве при реорганизации</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:sequence minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Признак смены наименования</xs:documentation>
-				</xs:annotation>
-				<xs:element name="prevFullName" type="nameType">
-					<xs:annotation>
-						<xs:documentation>Полное наименование до его смены или наименование лица, от которого перешли права и обязанности</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="prevShortName" type="nameType">
-					<xs:annotation>
-						<xs:documentation>Сокращенное наименование до его смены или наименование лица, от которого перешли права и обязанности</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-			<xs:sequence minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Признак реорганизации</xs:documentation>
-				</xs:annotation>
-				<xs:element name="prevRegNum" type="regNumType">
-					<xs:annotation>
-						<xs:documentation>Регистрационный номер лица, от которого перешли права и обязанности</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="date" type="dateType">
-					<xs:annotation>
-						<xs:documentation>Дата правопреемства (окончания реорганизации)</xs:documentation>
-						<xs:appinfo>Допустимые значения: не ранее даты государственной регистрации субъекта – юридического лица и не позднее даты формирования кредитной информации.</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:sequence minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Признак смены наименования</xs:documentation>
+						</xs:annotation>
+						<xs:element name="prevFullName" type="nameType">
+							<xs:annotation>
+								<xs:documentation>Полное наименование до его смены или наименование лица, от которого перешли права и обязанности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="prevShortName" type="nameType">
+							<xs:annotation>
+								<xs:documentation>Сокращенное наименование до его смены или наименование лица, от которого перешли права и обязанности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:sequence minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Признак реорганизации</xs:documentation>
+						</xs:annotation>
+						<xs:element name="prevRegNum" type="regNumType">
+							<xs:annotation>
+								<xs:documentation>Регистрационный номер лица, от которого перешли права и обязанности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="date" type="dateType">
+							<xs:annotation>
+								<xs:documentation>Дата правопреемства (окончания реорганизации)</xs:documentation>
+								<xs:appinfo>Допустимые значения: не ранее даты государственной регистрации субъекта – юридического лица и не позднее даты формирования кредитной информации.</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="OrgCreditHistoryMain">
 		<xs:annotation>
@@ -2849,35 +3037,43 @@
 		<xs:annotation>
 			<xs:documentation>юр Блок 7. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата завершения расчетов с кредиторами</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата завершения расчетов с кредиторами</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="PrevOrgType">
 		<xs:annotation>
 			<xs:documentation>юр Блок 8. Сведения об основных частях кредитных историй юридического лица, от которого субъекту перешли права и обязанности</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="rusRegInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак регистрации в Российской Федерации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="name" type="nameType">
-				<xs:annotation>
-					<xs:documentation>Полное наименование лица, от которого перешли права и обязанности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="regNum" type="regNumType">
-				<xs:annotation>
-					<xs:documentation>Регистрационный номер лица, от которого перешли права и обязанности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="rusRegInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак регистрации в Российской Федерации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="name" type="nameType">
+						<xs:annotation>
+							<xs:documentation>Полное наименование лица, от которого перешли права и обязанности</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="regNum" type="regNumType">
+						<xs:annotation>
+							<xs:documentation>Регистрационный номер лица, от которого перешли права и обязанности</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:group name="OrgObligation">
 		<xs:annotation>
@@ -2889,12 +3085,12 @@
 					<xs:documentation>Сведения об условиях обязательства</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="OrgDealFulfillment">
+			<xs:group ref="DealFulfillment">
 				<xs:annotation>
 					<xs:documentation>Сведения об исполнении обязательства</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:group ref="OrgDealSecuring" minOccurs="0">
+			<xs:group ref="DealSecuring" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Сведения об обеспечении исполнения обязательства</xs:documentation>
 				</xs:annotation>
@@ -2954,135 +3150,60 @@
 		<xs:annotation>
 			<xs:documentation>юр Блок 11. Общие сведения о сделке</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="date" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата совершения сделки</xs:documentation>
-					<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dealType" type="dealType">
-				<xs:annotation>
-					<xs:documentation>Код типа сделки</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="loanKind" type="loanType">
-				<xs:annotation>
-					<xs:documentation>Код вида займа (кредита)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="loanPurpose" type="loanReasonType">
-				<xs:annotation>
-					<xs:documentation>Код цели займа (кредита)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="cardInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак использования платежной карты</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="novationInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак возникновения обязательства в результате новации</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sourceObligationInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак денежного обязательства источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="subjectObligationInd" type="indicatorType">
-				<xs:annotation>
-					<xs:documentation>Признак денежного обязательства субъекта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="endDate" type="dateType">
-				<xs:annotation>
-					<xs:documentation>Дата прекращения обязательства субъекта по условиям сделки</xs:documentation>
-					<xs:appinfo>Допустимые значения: позднее даты совершения сделки в блоке показателей, содержащем настоящий показатель; для бессрочной сделки указывается значение «31.12.9999».</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="BlockType">
+				<xs:sequence>
+					<xs:element name="date" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата совершения сделки</xs:documentation>
+							<xs:appinfo>Допустимые значения: не позднее даты формирования кредитной информации.</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dealType" type="dealType">
+						<xs:annotation>
+							<xs:documentation>Код типа сделки</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="loanKind" type="loanType">
+						<xs:annotation>
+							<xs:documentation>Код вида займа (кредита)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="loanPurpose" type="loanReasonType">
+						<xs:annotation>
+							<xs:documentation>Код цели займа (кредита)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cardInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак использования платежной карты</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="novationInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак возникновения обязательства в результате новации</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sourceObligationInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак денежного обязательства источника</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="subjectObligationInd" type="indicatorType">
+						<xs:annotation>
+							<xs:documentation>Признак денежного обязательства субъекта</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="dateType">
+						<xs:annotation>
+							<xs:documentation>Дата прекращения обязательства субъекта по условиям сделки</xs:documentation>
+							<xs:appinfo>Допустимые значения: позднее даты совершения сделки в блоке показателей, содержащем настоящий показатель; для бессрочной сделки указывается значение «31.12.9999».</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
-	<xs:group name="OrgDealFulfillment">
-		<xs:annotation>
-			<xs:documentation>Сведения об исполнении обязательства</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="fundDate" type="FundDateType">
-				<xs:annotation>
-					<xs:documentation>Блок 24. Дата передачи финансирования субъекту или возникновения обеспечения исполнения обязательства</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="arrear" type="ArrearType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 25. Сведения о задолженности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="dueArrear" type="DueArrearType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 26. Сведения о срочной задолженности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="pastdueArrear" type="PastdueArrearType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 27. Сведения о просроченной задолженности</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="payments" type="PaymentsType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 28. Сведения о внесении платежей</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sourceNonMonetaryObligation" type="SourceNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 30. Сведения о неденежном обязательстве источника</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="subjectNonMonetaryObligation" type="SubjectNonMonetaryObligationType">
-				<xs:annotation>
-					<xs:documentation>Блок 31. Сведения о неденежном обязательстве субъекта</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:group>
-	<xs:group name="OrgDealSecuring">
-		<xs:annotation>
-			<xs:documentation>Сведения об обеспечении исполнения обязательства</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="collateral" type="CollateralType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 32. Сведения о залоге</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="guarantee" type="GuaranteeType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 33. Сведения о поручительстве</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="indepGuarantee" type="IndepGuaranteeType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 34. Сведения о независимой гарантии</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="collateralInsurance" type="CollateralInsuranceType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 35. Сведения о страховании предмета залога</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="settlement" type="SettlementType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 36. Сведения о погашении требований кредитора по обязательству за счет обеспечения</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="repayment" type="RepaymentType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Блок 37. Сведения о возмещении принципалом гаранту выплаченной суммы</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:group>
 	<xs:group name="OrgHistoryOther">
 		<xs:annotation>
 			<xs:documentation>Отдельные блоки основной части кредитной истории</xs:documentation>
@@ -3105,4 +3226,14 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:group>
+	<xs:complexType name="BlockType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Базовый тип для всех Блоков (абстрактный)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="infoDate" type="dateType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Attribute with the date of information forming for this block (infoDate)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 </xs:schema>

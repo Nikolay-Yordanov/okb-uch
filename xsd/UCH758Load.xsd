@@ -994,7 +994,7 @@
 		<xs:complexContent>
 			<xs:extension base="DealType">
 				<xs:sequence>
-					<xs:element name="stopInfo" type="StopInfoType" minOccurs="0" maxOccurs="0">
+					<xs:element name="stopInfo" type="StopInfoType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Блок 45. (юр Блок 35) Сведения о прекращении передачи информации по обязательству</xs:documentation>
 						</xs:annotation>
@@ -1005,12 +1005,12 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:choice>
-						<xs:element name="orgAcquirerInfo" type="OrgAcquirerInfoType" minOccurs="0" maxOccurs="0">
+						<xs:element name="orgAcquirerInfo" type="OrgAcquirerInfoType">
 							<xs:annotation>
 								<xs:documentation>Блок 51. (юр Блок 41) Сведения о приобретателе прав – юридическом лице</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="personAcquirerInfo" type="PersonAcquirerInfoType" minOccurs="0" maxOccurs="0">
+						<xs:element name="personAcquirerInfo" type="PersonAcquirerInfoType">
 							<xs:annotation>
 								<xs:documentation>Блок 52. (юр Блок 42) Сведения о приобретателе прав – физическом лице</xs:documentation>
 							</xs:annotation>
