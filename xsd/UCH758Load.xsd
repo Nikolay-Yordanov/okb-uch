@@ -1534,19 +1534,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:group name="OrgSubjectDealEvents">
-		<xs:annotation>
-			<xs:documentation>Группа событий по сделке применительно к субъекту</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="subjectRole" type="roleType">
-				<xs:annotation>
-					<xs:documentation>11+ Код вида участия в сделке (Отличие от Положения-758: Выделено из Блока 11, потому что не является свойством Договора, а является свойством Субъекта в сделке по Договору, поэтому обрабатывается отдельно)</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:choice/>
-		</xs:sequence>
-	</xs:group>
 	<xs:complexType name="OrgMonetaryDealChangedType">
 		<xs:annotation>
 			<xs:documentation>2.1 Изменились сведения об условиях обязательства субъекта для денежного обязательства</xs:documentation>
