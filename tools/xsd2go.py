@@ -3,6 +3,8 @@ import argparse
 
 files = {}
 ifaces = ""
+vmt = ["load", "validate"]
+
 
 def capitalize(str):
     return str[:1].upper() + str[1:]
@@ -35,31 +37,43 @@ def write_field(name, xname, tname, optional, multi):
     row += ' `xml:"' + xname + ',omitempty"`'
     files["uch"].write(row + "\n")
 
-def write_init_func(name):
-    files["uch_func"].write("type {}Load func(ctx *Context) error\n\n".format(name))
-    files["uch_func"].write("func (this {}) load(ctx *Context) error {{ return nil }}\n\n".format(name))
-    files["uch_func"].write("func (this {}) init(ctx *Context) error {{\n".format(name))
-    files["uch_func"].write("  this._load = this.load\n".format(name))
+def write_func_decl(name):
+    files["uch_func"].write("type {}Func func(ctx *Context) error\n\n".format(name))
+    for fname in vmt:
+        files["uch_func"].write("func (this {}) {}(ctx *Context) error {{ return nil }}\n\n".format(name, fname))
 
-def write_end_func():
-    files["uch_func"].write("  return nil\n")
+def format_vmt_init():
+    format = ""
+    for fname in vmt:
+        format += "  this._{0} = this.{0}\n".format(fname)
+    return format
 
-def write_body(name, fname, optional, multi):
+def format_start_func(name):
+    return "func (this {0}) {0}{{1}}(ctx *Context) error {{{{\n".format(name)
+
+def format_end_func():
+    return "  return nil\n}}\n\n"
+
+def format_body(name, fname, optional, multi):
+    format = ""
     if multi:
-        files["uch_func"].write(
-            "  for _, v := range this.{} {{\n"
-            "    v.{}(ctx)\n"
-            "  }}\n".format(name, fname))
+        format += \
+            "  for _, v := range this.{0} {{{{\n"\
+            "    v.{1}(ctx)\n"\
+            "  }}}}\n".format(name, fname)
     elif optional:
-        files["uch_func"].write(
-            "  if this.{0} != nil {{\n"
-            "    this.{0}.{1}(ctx)\n"
-            "  }}\n".format(name, fname))
+        format += \
+            "  if this.{0} != nil {{{{\n"\
+            "    this.{0}.{1}(ctx)\n"\
+            "  }}}}\n".format(name, fname)
     else:
-        files["uch_func"].write("  this.{}.{}(ctx)\n".format(name, fname))
+        format += "  this.{0}.{1}(ctx)\n".format(name, fname)
+    return format
 
 def write_vmt(name):
-    files["uch"].write("  _load {0}Load\n".format(name))
+    for fname in vmt:
+        files["uch"].write("  _{} {}Func\n".format(fname, name))
+    files["uch"].write("}\n\n")
 
 def write_types(schema_name, skip_deps=False, interfaces=False):
     schema = xsd.XMLSchema(schema_name)
@@ -71,7 +85,12 @@ def write_types(schema_name, skip_deps=False, interfaces=False):
         write_all("// " + type.annotation.documentation[0].text + "\n")
         type_name = "Xs" + type.local_name
         write_struct(type_name)
-        write_init_func(type_name)
+        write_func_decl(type_name)
+        format_start = format_start_func(type_name)
+        # It's for collecting lines of the function body
+        format = ""
+        # Have to collect body for init function separately because there direct Xs...Init functions are called instead of through vmt
+        format_init = ""
         for attr in type.attributes:
             write_attr(capitalize(attr), attr)
         for elem in type.content.iter_elements():
@@ -86,11 +105,12 @@ def write_types(schema_name, skip_deps=False, interfaces=False):
                 tname  ="string"
             write_field(field_name, elem.local_name, tname, optional, multi)
             if elem.type.has_complex_content():
-                write_body(field_name, "init", optional, multi)
-                write_body(field_name, "_load", optional, multi)
+                format_init += format_body(field_name, tname+"Init", optional, multi)
+                format += format_body(field_name, "_{0}", optional, multi)
         write_vmt(type_name)
-        write_end_func()
-        write_all("}\n\n")
+        files["uch_func"].write((format_start + format_vmt_init() + format_init + format_end_func()).format("init", "Init"))
+        for fname in vmt:
+            files["uch_func"].write((format_start + format + format_end_func()).format(fname, capitalize(fname)))
     close_files()
 
 ap = argparse.ArgumentParser()

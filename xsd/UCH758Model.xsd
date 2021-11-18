@@ -1391,7 +1391,6 @@
 					<xs:element name="assetId" type="collateralIdType">
 						<xs:annotation>
 							<xs:documentation>Идентификационный код предмета залога</xs:documentation>
-							<xs:appinfo>Допустимые значения: не ранее даты заключения договора залога и не позднее даты формирования кредитной информации.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="contractDate" type="dateType">
@@ -1413,6 +1412,7 @@
 					<xs:element name="assessDate" type="dateType">
 						<xs:annotation>
 							<xs:documentation>Дата проведения оценки предмета залога</xs:documentation>
+							<xs:appinfo>Допустимые значения: не ранее даты заключения договора залога и не позднее даты формирования кредитной информации.</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="encumbranceInd" type="indicatorType">
