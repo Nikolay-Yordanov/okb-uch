@@ -36,27 +36,27 @@ def write_field(name, xname, tname, optional, multi):
     files["uch"].write(row + "\n")
 
 def write_init_func(name):
-    files["uch_init"].write("type {}Load func(ctx *Context) error\n\n".format(name))
-    files["uch_init"].write("func (this {}) load(ctx *Context) error {{ return nil }}\n\n".format(name))
-    files["uch_init"].write("func (this {}) init(ctx *Context) error {{\n".format(name))
-    files["uch_init"].write("  this._load = this.load\n".format(name))
+    files["uch_func"].write("type {}Load func(ctx *Context) error\n\n".format(name))
+    files["uch_func"].write("func (this {}) load(ctx *Context) error {{ return nil }}\n\n".format(name))
+    files["uch_func"].write("func (this {}) init(ctx *Context) error {{\n".format(name))
+    files["uch_func"].write("  this._load = this.load\n".format(name))
 
 def write_end_func():
-    files["uch_init"].write("  return nil\n")
+    files["uch_func"].write("  return nil\n")
 
 def write_body(name, fname, optional, multi):
     if multi:
-        files["uch_init"].write(
+        files["uch_func"].write(
             "  for _, v := range this.{} {{\n"
             "    v.{}(ctx)\n"
             "  }}\n".format(name, fname))
     elif optional:
-        files["uch_init"].write(
+        files["uch_func"].write(
             "  if this.{0} != nil {{\n"
             "    this.{0}.{1}(ctx)\n"
             "  }}\n".format(name, fname))
     else:
-        files["uch_init"].write("  this.{}.{}(ctx)\n".format(name, fname))
+        files["uch_func"].write("  this.{}.{}(ctx)\n".format(name, fname))
 
 def write_vmt(name):
     files["uch"].write("  _load {0}Load\n".format(name))
@@ -64,7 +64,7 @@ def write_vmt(name):
 def write_types(schema_name, skip_deps=False, interfaces=False):
     schema = xsd.XMLSchema(schema_name)
     init_file('uch')
-    init_file('uch_init')
+    init_file('uch_func')
     for type in schema.complex_types:
         if skip_deps and type.schema.name != schema_name:
             continue
