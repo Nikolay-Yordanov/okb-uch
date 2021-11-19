@@ -519,6 +519,15 @@
 			<xs:maxInclusive value="6"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="operationReasonType">
+		<xs:annotation>
+			<xs:documentation>Справочник ОКБ. Причины отказа совершить сделку</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="other99Type">
 		<xs:annotation>
 			<xs:documentation>Вспомогательный тип</xs:documentation>
